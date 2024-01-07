@@ -1,0 +1,48 @@
+::-moz-selection, ::selection { /* Code for Firefox */
+    color: #000000;
+    background: #5126e0;
+}
+
+
+/* Light theme styles */
+body {
+    background-color: #0b0324;
+}
+
+i {
+    color: #FFFFFF;
+}
+
+
+/******************/
+/* Navbar styling */
+/******************/
+.navbar-part {
+    background-color: #2a0a94;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .4), 0px 5px #5126e0;
+}
+
+
+/********************/
+/* Left side navbar */
+/********************/
+.app-name {
+    color: #FFFFFF;
+}
+
+
+/*******************/
+/* Timer container */
+/*******************/
+.chronometer-item {
+    background-color: #2a0a94;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .4), 0px 5px #5126e0;
+}
+
+.time-container {
+    background-color: #4826B8;
+}
+
+.time {
+    color: #FFFFFF;
+}

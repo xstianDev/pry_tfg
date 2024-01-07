@@ -1,0 +1,6 @@
+# parcel
+.parcel-cache
+dist
+
+# dependencies
+node_modules
