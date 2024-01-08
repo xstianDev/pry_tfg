@@ -8,7 +8,7 @@ import '/src/styles/Footer.css';
 const Footer = () => {
     return (
         <footer className='footer-wrapper'>
-            <div className='footer-content'>
+            <div className='footer-top'>
                 {footerCols.map((col, colIdx) => {
                     console.log(col);
                     <div 

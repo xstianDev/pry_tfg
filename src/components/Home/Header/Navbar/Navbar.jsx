@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 
 import NavbarButton from './NavbarButton';
 import navbarButtons from '/src/data/navbarButtons.js';
@@ -12,6 +12,20 @@ import '/src/styles/Navbar.css';
 
 const Navbar = () => {
     const [isLogged, setIsLogged] = useState(false);
+    const [showUserSubmenu, setShowUserSubmenu] = useState(false);
+
+    useEffect(() => {
+        const userSubmenu = document.querySelector('.navbar-user');
+
+        userSubmenu.addEventListener('mouseover', () => {
+            setShowUserSubmenu(true);
+            console.log(userSubmenu);
+        });
+        userSubmenu.addEventListener('mouseout', () => {
+            setShowUserSubmenu(false);
+            console.log(userSubmenu);
+        });
+    });
 
     return (
         <div className='navbar-wrapper'>
@@ -46,6 +60,13 @@ const Navbar = () => {
                             alt="User" 
                         />
                     </div>
+                    {showUserSubmenu 
+                        ? 
+                            <div className='navbar-user-submenu'>
+                                
+                            </div>
+                        : null
+                    }
                 </div>
             </div>
         </div>

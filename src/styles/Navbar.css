@@ -78,6 +78,9 @@
 }
 
 /* Navbar part right */
+.navbar-part-right {
+    float: right;
+}
 .navbar-part-right div {
     margin: 0 8px;
     padding: 8px;
@@ -85,4 +88,12 @@
 
     display: flex;
     justify-content: center;
+}
+
+.navbar-user-submenu {
+    position: absolute;
+    top: -68px;
+
+    border-top-left-radius: 16px;
+    border-bottom: 16px;
 }
