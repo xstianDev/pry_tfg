@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import NavbarButton from './NavbarButton';
+
 import navbarButtons from '/src/data/navbarButtons.js';
 
 import logo from '/public/images/logo.jpg';
