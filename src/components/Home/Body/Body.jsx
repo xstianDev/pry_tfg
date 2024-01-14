@@ -7,6 +7,7 @@ const Body = () => {
     return (
         <main className='main-wrapper'>
             <Carousel />
+            <Carousel />
         </main>
     )
 }
