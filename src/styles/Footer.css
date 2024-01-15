@@ -2,11 +2,13 @@
  *   Footer   *
  * ********** */
 
+
 /* Footer wrapper */
 .footer-wrapper {
     width: 100%;
-    height: 400px;
-    padding: 0 100px;
+    /* height: 400px; */
+    padding: 0 7.5%;
+    border-top: 2px solid rgba(255, 255, 255, 0.5);
 
     background-color: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(10px);
@@ -18,30 +20,75 @@
 /* Footer top */
 .footer-top {
     display: flex;
-    padding: 80px 5%;
+    margin: 56px 0;
+    padding: 0 5%;
 
     justify-content: space-between;
 }
 
+.col {
+    min-width: 250px;
 
-.copy-year {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.col_title {
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
+
+.row a {
     color: white;
 }
+
+
 
 /* Footer bottom wrapper */
 .footer-bottom {
     width: 100%;
-    height: 68px;
+    height: 96px;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
 
-    background-color: rgba(0, 0, 0, 1);
     backdrop-filter: blur(4px);
 
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
 }
 .footer-bottom .image {
     width: 48px;
     height: 48px;
     margin: 0 12px;
     border-radius: 12px;
+}
+
+
+
+/* Footer bottom left */
+.footer-bottom-left {
+    display: flex;
+    align-items: center;
+}
+
+.footer-copy-year {
+    margin-left: 8px;
+    color: white;
+    text-align: center;
+}
+
+
+/* Footer bottom right */
+
+.footer-socials {
+    display: flex;
+}
+.social_icon {
+    margin: 0 18px;
+    text-align: center  ;
+}
+.social_icon i {
+    font-size: 24px;
+    color: white;
 }

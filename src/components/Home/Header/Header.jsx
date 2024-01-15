@@ -9,7 +9,11 @@ import '/src/styles/Header.css';
 const Header = () => {
     const [headerClass, setHeaderClass] = useState('header-wrapper');
 
+    // INFO: (opcional) El objetivo de este código es ocultar el MenuAccesibilidad cuando se haga scroll 
+    // hacia abajo y que vuelva a aparecer al hacer scroll hacia arriba
+    
     // TODO: cambiar 28 por la altura de MenuAccesibilidad
+    /**
     useEffect(() => {
         window.addEventListener("scroll", () => {
             setHeaderClass((window.scrollY !== 0) 
@@ -17,6 +21,7 @@ const Header = () => {
                 : 'header-wrapper');
         });
     }, []);
+     */
 
     return (
         <header className={headerClass}>
