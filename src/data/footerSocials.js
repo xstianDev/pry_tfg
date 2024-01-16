@@ -23,6 +23,12 @@ const footerSocials = [
         title: 'YouTube',
         className: 'bi bi-youtube',
     },
+    {
+        id: 4,
+        href: 'https://github.com/',
+        title: 'GitHub',
+        className: 'bi bi-github',
+    },
 ];
 
 export default footerSocials;

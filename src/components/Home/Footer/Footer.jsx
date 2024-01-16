@@ -1,39 +1,17 @@
 import React from 'react';
 
-import footerCols from '/src/data/footerCols.js';
-import footerSocials from '/src/data/footerSocials.js'
-
+import FooterInfo from './FooterInfo';
 import logo from '/public/images/logo.jpg';
 
 import '/src/styles/Footer.css';
+import FooterSocials from './FooterSocials';
 
 
 const Footer = () => {
     return (
         <footer className='footer-wrapper'>
             <div className='footer-top'>
-                {footerCols.map((col, colIdx) => {
-                    return (
-                        <div 
-                            className={`col col_${colIdx}`}
-                            key={`col_${colIdx}`}
-                        >
-                            <div className='col_title'>{ col.title }</div>
-                            {col.rows.map((row, rowIdx) => {
-                                return (
-                                    <div 
-                                        className={`row row_${colIdx}_${rowIdx}`}
-                                        key={`row_${colIdx}_${rowIdx}`}
-                                    >
-                                        <a href={row.href}>
-                                            { row.text }
-                                        </a>
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    )
-                })}
+                <FooterInfo />
             </div>
             <div className='footer-bottom'>
                 <div className='footer-bottom-left'>
@@ -50,20 +28,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className='footer-bottom-right'>
-                    <div className='footer-socials'>
-                        {footerSocials.map((icon, idx) => {
-                            return (
-                                <div
-                                    className={`social_icon social_${idx}`}
-                                    key={`social_${idx}`}
-                                >
-                                    <a href={icon.href} title={icon.title}>
-                                       <i className={icon.className}></i>
-                                    </a>
-                                </div>
-                            )
-                        })}
-                    </div>
+                    <FooterSocials />
                 </div>
             </div>
         </footer>

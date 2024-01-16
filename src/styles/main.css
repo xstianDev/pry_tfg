@@ -5,14 +5,17 @@
     box-sizing: border-box;
 }
 
+:root {
+    --normal-font: 1em;
+}
 /* 
-:root {}
 html.dark {} 
 */
 
 body {
+    height: 100%;
     font-family: 'Rubik', 'Lato','Segoe UI', sans-serif;
-    /* background-color: #130D38; */
+    /* background-color: rgba(19, 13, 56, .7); */
     background: url('./fondo.jpg') no-repeat;
 }
 

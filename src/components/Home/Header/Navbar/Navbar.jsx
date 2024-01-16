@@ -20,15 +20,16 @@ const Navbar = () => {
 
         userSubmenu.addEventListener('mouseover', () => {
             setShowUserSubmenu(true);
-            console.log(userSubmenu);
+            // console.log("mouseover", userSubmenu);
         });
         userSubmenu.addEventListener('mouseout', () => {
             setShowUserSubmenu(false);
-            console.log(userSubmenu);
+            // console.log("mouseout", userSubmenu);
         });
     });
 
     return (
+        <>
         <div className='navbar-wrapper'>
             <div className='navbar-container'>
                 <div className='navbar-part navbar-part-left'>
@@ -51,26 +52,36 @@ const Navbar = () => {
                 </div>
                 <div className='navbar-part navbar-part-right'>
                     <div className='navbar-user'>
-                        <img 
-                            className="image" 
-                            src={isLogged
-                                ? anon
-                                : user
-                            } 
-                            href='/' 
-                            alt="User" 
-                        />
+                        {/*  */}
+                        <a href="login">
+                            <img 
+                                className="image" 
+                                src={isLogged
+                                    ? user
+                                    : anon
+                                } 
+                                href='/' 
+                                alt="User" 
+                            />
+                        </a>
                     </div>
-                    {showUserSubmenu 
-                        ? 
-                            <div className='navbar-user-submenu'>
-                                
-                            </div>
-                        : null
-                    }
+                    {/* Submenu (?) */}
                 </div>
             </div>
         </div>
+        {showUserSubmenu 
+            ? 
+                <div className='navbar-user-submenu'>
+                    <div className='user-submenu-top'>
+                    
+                    </div>
+                    <div className='user-submenu-bottom'>
+                    
+                    </div>
+                </div>
+            : null
+        }
+        </>
     )
 }
 

@@ -1,115 +1,114 @@
 const footerCols = [
     {
-        id: 0,
+        colIdx: 0,
         title: 'Sobre nosotros',
         rows: [
             {
-                id: 0,
+                rowIdx: 0,
                 text: "Historia",
                 href: 'history',
             },
             {
-                id: 1,
+                rowIdx: 1,
                 text: "Misión",
                 href: 'info',
             },
             {
-                id: 2,
+                rowIdx: 2,
                 text: "Métodos",
                 href: 'approach',
             },
             {
-                id: 3,
-                text: "Estadísticas y resultados",
+                rowIdx: 3,
+                text: "Estadísticas",
                 href: 'stats',
             },
         ],        
     },
     {
-        id: 2,
+        colIdx: 2,
         title: 'Ayuda y soporte',
         rows: [
             {
-                id: 0,
+                rowIdx: 0,
                 text: "Reporta un error",
                 href: 'report',
             },
             {
-                id: 1,
+                rowIdx: 1,
                 text: "Sugerencias",
                 href: 'suggestions',
             },
             {
-                id: 2,
+                rowIdx: 2,
                 text: "Contáctanos",
                 href: 'contact',
             },
             {
-                id: 3,
+                rowIdx: 3,
                 text: "Opina sobre nosotros",
                 href: 'rate',
             },
         ],
     },
     {
-        id: 1,
+        colIdx: 1,
         title: 'Apóyanos',
         rows: [
             {
-                id: 0,
-                text: "Conviértete en partner",
+                rowIdx: 0,
+                text: "Hazte socio",
                 href: 'partners',
             },
             {
-                id: 1,
+                rowIdx: 1,
                 text: "Donaciones",
                 href: 'donations',
             },
             {
-                id: 2,
+                rowIdx: 2,
                 text: "Patrocinios",
                 href: 'sponsorship',
             },
         ],
     },
-    
     {
-        id: 3,
-        title: 'Trabaja con nosotros',
+        colIdx: 3,
+        title: 'Empleo',
         rows: [
             {
-                id: 0,
+                rowIdx: 0,
                 text: "Trabajos disponibles",
                 href: 'work',
             },
             {
-                id: 0,
+                rowIdx: 0,
                 text: "Manda tu CV",
                 href: 'cv',
             },
         ],
     },
     {
-        id: 4,
-        title: 'Privacidad y Condiciones',
+        colIdx: 4,
+        title: 'Condiciones',
         rows: [
             {
-                id: 0,
+                rowIdx: 0,
                 text: "Política de privacidad",
                 href: 'privacy',
             },
             {
-                id: 1,
+                rowIdx: 1,
                 text: "Protección de datos",
                 href: 'data-protection',
             },
             {
-                id: 2,
+                rowIdx: 2,
                 text: "Aviso legal",
                 href: 'legal',
             },
             {
-                id: 3,
+                rowIdx: 3,
                 text: "Cookies",
                 href: 'cookies',
             },

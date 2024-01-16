@@ -32,16 +32,13 @@
 /* Navbar part */
 .navbar-part {
     height: 100%;
-    position: relative;
     
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
-.navbar-part div {
-    position: relative;
-    
+.navbar-part div {    
     display: flex;
     align-items: center;
 
@@ -58,7 +55,7 @@
 }
 .navbar-button:hover {
     position: relative;
-    background-color: rgba(119, 0, 255, 0.2);
+    background-color: rgba(0, 132, 255, 0.2);
     backdrop-filter: blur(4px);
     
     transition: 400ms;
@@ -78,13 +75,9 @@
 .navbar-part-right {
     float: right;
 }
-.navbar-part-right div {
+.navbar-part-right {
     margin: 0 8px;
-    padding: 8px;
     border-radius: 16px;
-
-    display: flex;
-    justify-content: center;
 }
 
 .navbar-user-submenu {
