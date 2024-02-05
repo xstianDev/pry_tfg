@@ -2,8 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Home from './Home/';
-// import Register from './Register';
-import Login from './Login';
+import Auth from './Auth';
 
 import '/src/styles/App.css';
 
@@ -12,10 +11,10 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Home />} />
-                {/* <Route path='/register' element={<Register />} />x */}
-                <Route path='/login' element={<Login />} />
+                <Route path='/login' element={<Auth auth="login" />} />
+                <Route path='/register' element={<Auth auth="register" />} />
                 
-                {// TODO
+                {// TODO: Enrutamiento de direcciones.
                 /*
                 <Route exact path='/salud-mental' element={<SaludMental />} />
                 <Route exact path='/desarrollo-personal' element={<DesarrolloPersonal />} />

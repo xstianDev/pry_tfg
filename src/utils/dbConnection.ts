@@ -1,9 +1,9 @@
 // Express
-import express from "express";
+const express = require("express");
 const app = express();
 
 // PostgreSQL
-import pgPromise from "pg-promise";
+const pgPromise = require("pg-promise");
 const PORT = 5432;
 const USER = "admin";
 const PASS = "Adivinala1.";
