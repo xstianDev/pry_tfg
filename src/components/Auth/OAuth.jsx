@@ -4,7 +4,7 @@ const OAuth = () => {
     return (
         // TODO: Hacer que los SVG se adapten a su contenedor.
         <div className='oauth'>
-            <span>Continua usando tu cuenta</span>
+            <span className='oauth-text'>Continua usando tu cuenta</span>
             <div className='oauth-buttons'>
                 <button className='oauth-button oauth-google'>
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="28" height="28" viewBox="0 0 48 48">

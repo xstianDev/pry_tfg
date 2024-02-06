@@ -11,8 +11,8 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Home />} />
-                <Route path='/login' element={<Auth auth="login" />} />
-                <Route path='/register' element={<Auth auth="register" />} />
+                <Route path='/login' element={<Auth register={false} />} />
+                <Route path='/register' element={<Auth register={true} />} />
                 
                 {// TODO: Enrutamiento de direcciones.
                 /*
@@ -23,7 +23,7 @@ const App = () => {
                 */}
             </Routes>
         </BrowserRouter>
-    )
-}
+    );
+};
 
 export default App;

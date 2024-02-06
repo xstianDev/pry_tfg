@@ -8,47 +8,47 @@ import "/src/styles/Auth.css";
 
 
 const Auth = (props) => {
-    const auth = props.auth;
+    const {register} = props;
+    const title = (register) ? "Registro" : "Iniciar sesión";
     
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [rePassword, setRePassword] = useState('');
     const [age, setAge] = useState('');
-    const [] = useState('');
-
-    console.log(auth);
+    // const [] = useState('');
+    
+    console.log(register);
 
     // En caso de que el submit se vuelva más complejo 
     const handleSubmit = (e) => {
         e.preventDefault();
-    }
+    };
 
     return (
         <div className='auth-wrapper'>
             <div className='auth-container'>
                 {/* Auth */}
                 <form className="auth-form" onSubmit={handleSubmit}>
-                    <h1 className='auth-title'>Registro</h1>
-                    <div className='auth-field auth-email'>
-                        <label>Email</label>
-                        <input 
-                            type='email' 
-                            placeholder='Introduce tu email' 
-                            onChange={e => setEmail(e.target.value)}
-                            />
-                    </div>
+                    <h1 className='auth-title'>{ title }</h1>
+                    
                     {/* TODO: sugerencias de correo (@gmail, @hotmail...) */}
-                    <div className='auth-field auth-password'>
-                        <label>Contraseña</label>
-                        <input 
-                            type='password' 
-                            placeholder='Introduce tu contraseña'
-                            onChange={e => setPassword(e.target.value)} 
-                            />
+                    <AuthField className="auth-email" labelText="Email" type='email' fn={setEmail} />
+                    <AuthField className="auth-password" labelText="Contraseña" type='password' fn={setPassword} />
+                    {!register &&
                         <span className='auth-forgot-pass'>
                             <a href="forgot">¿Olvidaste tu contraseña?</a>
                         </span>
+                    }
+                    {register && 
+                        <div className='auth-field auth-password'>
+                        <label>Confirmar contraseña</label>
+                        <input 
+                            type='password'
+                            onChange={e => setPassword(e.target.value)} 
+                        />
                     </div>
+                    }
                     <button className='auth-button'>Continuar</button>
                 </form>
 
@@ -68,7 +68,7 @@ const Auth = (props) => {
 };
 
 Auth.propTypes = {
-    auth: PropTypes.string.isRequired
-}
+    register: PropTypes.bool.isRequired
+};
 
 export default Auth;

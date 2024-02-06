@@ -51,6 +51,7 @@
 
 .auth-title {
     text-align: center;
+    font-weight: 900;
 }
 
 
@@ -96,6 +97,9 @@
     flex-direction: column;
 
     align-items: center;
+}
+.oauth-text {
+    margin-bottom: 8px;
 }
 .oauth-buttons {
     display: flex;

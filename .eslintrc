@@ -15,6 +15,10 @@
         "react"
     ],
     "rules": {
+        "semi": "warn",
+        "no-undef": "error",
+        "no-unused-vars": "warn",
+        "no-unused-expressions": "warn"
     },
     "settings": {
         "react": {
