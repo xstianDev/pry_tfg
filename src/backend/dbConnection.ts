@@ -23,7 +23,6 @@ const INTERNAL_SERVER_ERROR = 500;
 
 // TODO:
 app.get('/', (req: Request, res: Response) => {
-    
     console.log('Request: ', req);
     console.log('Method: ', req.method);
     console.log('URL: ', req.url);

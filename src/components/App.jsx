@@ -12,14 +12,14 @@ const App = () => (
         <Route path='/login' element={<Auth isRegister={false} />} />
         <Route path='/register' element={<Auth isRegister={true} />} />
         
-        <Route path='*' element={<Error404 url={window.location.href} />} /> 
-        {// TODO: Enrutamiento de direcciones.
-        /*
+        {/* // TODO: Enrutamiento de direcciones. */}
+        {/*
         <Route exact path='/salud-mental' element={<SaludMental />} />
         <Route exact path='/desarrollo-personal' element={<DesarrolloPersonal />} />
         <Route exact path='/servicios-productos' element={<About />} />
         */}
+        <Route path='*' element={<Error404 url={window.location.href} />} /> 
     </Routes>
-);
+);  
 
 export default App;

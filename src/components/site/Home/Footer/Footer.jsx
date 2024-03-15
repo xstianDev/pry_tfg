@@ -1,10 +1,11 @@
 import React from 'react';
 
 import FooterInfo from './FooterInfo';
+import FooterSocials from './FooterSocials';
+
 import logo from '/public/images/logo.jpg';
 
 import '/src/styles/Footer.css';
-import FooterSocials from './FooterSocials';
 
 
 const Footer = () => {

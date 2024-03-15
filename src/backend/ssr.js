@@ -1,7 +1,7 @@
 import React from "react";
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
-import App from '../components/App';
+import App from '/src/components/App';
 
 // ssr: Server Side Rendering
 

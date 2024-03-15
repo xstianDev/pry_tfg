@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(domNode);
 
 const AppWithRouter = () => (
     <BrowserRouter>
-        <App isServer={true} />
+        <App isServer={false} />
     </BrowserRouter>
 );
 

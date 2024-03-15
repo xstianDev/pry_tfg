@@ -6,6 +6,7 @@
     "start": "parcel public/html/index.html",
     "dev": "vite",
     "build": "vite build",
+    "pack": "webpack",
     "lint": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0",
     "fix": "eslint --fix .",
     "preview": "vite preview"

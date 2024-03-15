@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import NavbarButton from './NavbarButton';
 
@@ -79,7 +79,8 @@ const Navbar = () => {
                     
                     </div>
                 </div>
-            : null
+            : 
+                null
         }
         </>
     );
