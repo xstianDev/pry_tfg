@@ -1,9 +1,18 @@
+# dependencies
+node_modules/
+
 # .env
 .env
 
-# parcel
-.parcel-cache
-dist
+# vite
+dist/
 
-# dependencies
-node_modules
+# config
+.vscode/
+jsconfig.json
+*.tsbuildinfo
+
+# misc
+certs/
+*.log
+*.rest

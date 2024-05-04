@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "typeRoots": ["src/types"],
+    "jsx": "react",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "strict": true,
+    "noEmit": true,
+    "allowJs": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "strictNullChecks": false,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@/*": ["src/*"],
+      "@css/*": ["public/assets/css/*"],
+      "@img/*": ["public/assets/img/*"],
+      "@js/*": ["src/assets/js/*"]
+    },
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.js"
+  ],
+  "files": ["src/types/index.d.ts"],
+  "exclude": ["node_modules"]
+}
