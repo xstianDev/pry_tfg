@@ -2,7 +2,7 @@
 import React from 'react';
 import { MessageType } from '@/types';
 
-interface MessageProps {
+export interface MessageProps {
     type: MessageType,
     content: string
 }

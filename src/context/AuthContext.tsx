@@ -1,20 +1,35 @@
-import React, { ReactNode, useState } from 'react';
-import { createContext } from 'vm';
+import { SetState, UserRole } from '@/types';
+import React, { ReactNode, createContext, useContext, useState } from 'react';
 
-interface AuthContextProps {
+export interface AuthContextProps {
     children: ReactNode
 }
 
-const Context = createContext({});
+export interface AuthState {
+    logged: boolean,
+    role: UserRole
+}
 
-const AuthContext = ({ children }: AuthContextProps) => {
-    const [auth, setAuth] = useState({});
+export interface AuthContextModel {
+    auth: AuthState,
+    setAuth: SetState<AuthState>
+}
 
-    return (
-        <Context.Provider value={{ auth, setAuth }}>
-            {children}
-        </Context.Provider>
-    );
+const AuthContext = createContext<AuthContextModel>(null);
+
+export const useAuthContext = () => {
+    return useContext(AuthContext);
 };
 
-export default AuthContext;
+export const AuthContextProvider = ({ children }: AuthContextProps) => {
+    const [auth, setAuth] = useState<AuthState>({
+        logged: false,
+        role: 'anon'
+    });
+
+    return (
+        <AuthContext.Provider value={{ auth, setAuth }}>
+            {children}
+        </AuthContext.Provider>
+    );
+};

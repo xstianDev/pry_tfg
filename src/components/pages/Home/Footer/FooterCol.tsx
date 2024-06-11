@@ -2,29 +2,25 @@ import React from 'react';
 
 import FooterRow from './FooterRow';
 
-import { Column, Row } from '@/types';
+import { IFooterColumn, IFooterRow } from '@/types';
 
-interface FooterColProps {
-    col: Column
-}
+export interface FooterColProps {
+    col: IFooterColumn
+    colIdx: number
+} 
 
-const FooterCol = ({ col }: FooterColProps) => {
-    const { colIdx, title, rows } = col;
-
-    return (
+const FooterCol = ({ col: { title, rows }, colIdx }: FooterColProps) => (
+    <div className='col-container'>
         <div className={`col col_${colIdx}`}>
-            <div className='col_title'>{title}</div>
-            {rows.map((row: Row, rowIdx: number) => {
-                return (
-                    <FooterRow 
-                        key={`row_${colIdx}_${rowIdx}`}
-                        colIdx={colIdx}
-                        row={row}
-                    />
-                );
-            })}
+            <span className='col_title'>{title}</span>
+            {rows.map((row: IFooterRow, rowIdx: number) => 
+                <FooterRow 
+                    key={`row_${colIdx}_${rowIdx}`}
+                    {...{ row, colIdx, rowIdx }}
+                />
+            )}
         </div>
-    );
-};
+    </div>
+);
 
 export default FooterCol;

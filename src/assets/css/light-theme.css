@@ -1,5 +1,6 @@
-::-moz-selection, ::selection { /* Code for Firefox */
-    color: #FFFFFF;
+/* Code for Firefox */
+::-moz-selection, ::selection {
+    color: white;
     background: #c7c7a3;
 }
 
@@ -10,7 +11,7 @@ body {
 }
 
 i {
-    color: #000000;
+    color: black;
 }
 
 
@@ -18,8 +19,8 @@ i {
 /* Navbar styling */
 /******************/
 .navbar-part {
-    background-color: #FFFFFF;
-    box-shadow: 0 0 8px rgba(0, 0, 0, .4), 0px 5px #c7c7a3;
+    background-color: white;
+    box-shadow: 0 0 8px var(--black-transparent-40), 0px 5px #c7c7a3;
 }
 
 
@@ -27,7 +28,7 @@ i {
 /* Left side navbar */
 /********************/
 .app-name {
-    color: #000000;
+    color: black;
 }
 
 
@@ -35,8 +36,8 @@ i {
 /* Timer container */
 /*******************/
 .chronometer-item {
-    background-color: #FFFFFF;
-    box-shadow: 0 0 8px rgba(0, 0, 0, .4), 0px 5px #c7c7a3;
+    background-color: white;
+    box-shadow: 0 0 8px var(--black-transparent-40), 0px 5px #c7c7a3;
 }
 
 .time-container {
@@ -44,5 +45,5 @@ i {
 }
 
 .time {
-    color: #000000;
+    color: black;
 }

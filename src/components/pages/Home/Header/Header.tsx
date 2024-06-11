@@ -1,34 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import '@css/Header.css';
+import React from 'react';
 
-import MenuAccesibilidad from './MenuAccesibilidad';
+import Accesibility from './Accesibility';
 import Navbar from './Navbar';
 
-import '@css/Header.css';
 
-
-const Header = () => {
-    const [headerClass, setHeaderClass] = useState('header-wrapper');
-
-    // INFO: (opcional) El objetivo de este código es ocultar el MenuAccesibilidad cuando se haga scroll 
-    // hacia abajo y que vuelva a aparecer al hacer scroll hacia arriba
-    
-    // TODO: cambiar 28 por la altura de MenuAccesibilidad
-    /**
-    useEffect(() => {
-        window.addEventListener('scroll', () => {
-            setHeaderClass((window.scrollY !== 0) 
-                ? 'header-wrapper header-sticky' 
-                : 'header-wrapper');
-        });
-    }, []);
-     */
-
-    return (
-        <header className={headerClass}>
-            <MenuAccesibilidad />
-            <Navbar />
-        </header>
-    );
-};
+const Header = () => (
+    <header className='header-wrapper'>
+        <Accesibility />
+        <Navbar />
+    </header>
+);
 
 export default Header;

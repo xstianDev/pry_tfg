@@ -1,33 +1,55 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from '@/api/axios';
+import { apiAuth } from '@/api/axios';
 
 import AuthField from './AuthField';
+import AuthFieldGroup from './AuthFieldGroup';
 import Error from '@/components/shared/errors/Error';
 
-import { HOME } from '@/constants/pageRoutes';
-import { OK } from '@/constants/httpCodes';
-import { API_AUTH } from '@/constants/apiRoutes';
+import { HOME, REGISTER } from '@/constants/pageRoutes';
+import { UserAddress, UserGender, UserRole } from '@/types';
+import { sendError } from '@/api/error';
+import { uploadFile } from '@/api/upload';
+import { checkEmail, checkPassword } from '@/api/checks';
 
 
 const Register = () => {
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordConfirm, setPasswordConfirm] = useState('');
-    const [birthday, setBirthday] = useState('');
+    const [name, setName] = useState<string>('');
+    const [surname, setSurname] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [confirm, setConfirm] = useState<string>('');
     
-    const [gender, setGender] = useState('M');
-    const [role, setRole] = useState('customer');
-    const [address, setAddress] = useState({});
+    const [birthday, setBirthday] = useState<string>('');
+    const [gender, setGender] = useState<UserGender>('M');
+    const [role, setRole] = useState<UserRole>('user');
+
+    const [address, setAddress] = useState<UserAddress>({});
     
-    const [error, setError] = useState('');
+    const [error, setError] = useState<string | ReactNode>('');
 
     const navigate = useNavigate();
     
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        const emailChecks = checkEmail(email);
+        if (emailChecks.length != 0) {
+            return setError(emailChecks[0]);
+        }
+
+        if (password != confirm)
+            return setError('Las contraseñas no coinciden');
+
+        const passChecks = checkPassword(password);
+        if (passChecks.length != 0) {
+            return setError(
+                <ul>
+                    <p>Tu contraseña debe:</p>
+                    {passChecks.map((err, idx) => <li key={idx}>{err}</li>)}
+                </ul>
+            );
+        }
 
         const info = {
             name: name,
@@ -38,105 +60,106 @@ const Register = () => {
             address: address
         };        
 
-        await axios.post(API_AUTH, { email, password, passwordConfirm, info })
+        await apiAuth.post(REGISTER, { email, password, info })
             .then(res => {
-                if (res.status === OK) return navigate(HOME);
+                if (res.status === 200) return navigate(HOME);
             })
             .catch(err => {
-                if (typeof err.response.data === 'string') setError(err.response.data);
-                if (!err.response.data || err.response.data === '') setError('Error desconocido');
+                sendError(err);
+                setError(err.response.data.error || 'Error desconocido');
             });
     };
 
     return (
-        <form className='auth-form' method='POST' onSubmit={handleSubmit}>
+        <form className='auth-form' method='POST' onSubmit={handleSubmit} noValidate>
             <h1 className='auth-title'>Registro</h1>
             
-            <AuthField 
-                className='auth-name' 
-                labelText='Nombre' 
-                type='text' 
-                placeholder={null}
-                required={true}
-                cb={setName}
-                extra={null}
-            />
+            <AuthFieldGroup>
+                <AuthField required
+                    className='auth-name' 
+                    labelText='Nombre' 
+                    type='text' 
+                    cb={setName}
+                />
 
-            <AuthField 
-                className='auth-surname' 
-                labelText='Apellidos' 
-                type='text' 
-                placeholder={null}
-                required={true}
-                cb={setSurname}
-                extra={null}
-            />
+                <AuthField required
+                    className='auth-surname' 
+                    labelText='Apellidos' 
+                    type='text' 
+                    cb={setSurname}
+                />
+            </AuthFieldGroup>
             
-            {/* <AuthField 
-                className='auth-gender' 
-                labelText='Género' 
-                type='text'
-                placeholder={null}
-                required={true}
-                cb={setGender}
-                extra={null}
-            />
-
-            <AuthField 
-                className='auth-gender' 
-                labelText='Tipo de usuario' 
-                type='text'
-                placeholder={null}
-                required={true}
-                cb={setType}
-                extra={null}
-            /> */}
-            
-            <AuthField 
+            <AuthField required
                 className='auth-email' 
                 labelText='Email' 
-                type='email' 
-                placeholder={null}
-                required={true}
-                cb={setEmail} 
-                extra={null}
+                type='text' 
+                cb={setEmail}
             />
 
-            <AuthField 
+            <AuthField required
                 className='auth-password' 
                 labelText='Contraseña' 
                 type='password' 
-                placeholder={null}
-                required={true}
-                cb={setPassword} 
-                extra={null}
+                cb={setPassword}
             />
             
-            <AuthField 
+            <AuthField required
                 className='auth-password-confirm' 
                 labelText='Confirmar contraseña' 
                 type='password' 
-                placeholder={null}
-                required={true}
-                cb={setPasswordConfirm}
-                extra={null}
+                cb={setConfirm}
+                extra={{
+                    bottom:
+                        <div className='auth-password-requirements'>
+                            <p>Una contraseña válida debe tener:</p>
+                            <ul>
+                                <li>Al menos 8 caracteres.</li> 
+                                <li>Letras mayúsculas y minúsculas.</li>
+                                <li>Un carácter especial (/, #, ...).</li> 
+                            </ul>
+                        </div>
+                }}
             />
 
-            <AuthField 
+            {/* <AuthFieldGroup>
+                <AuthField required
+                    className='auth-gender' 
+                    labelText='Género' 
+                    type='text'
+                    cb={setGender}
+                />
+
+                <AuthField required
+                    className='auth-gender' 
+                    labelText='Tipo de usuario' 
+                    type='text'
+                    cb={setRole}
+                />
+            </AuthFieldGroup> */}
+
+            <AuthField required
                 className='auth-age' 
                 labelText='Edad' 
                 type='date'
-                placeholder={null}
-                required={true}
                 cb={setBirthday}
-                extra={null}
-            />
+            /> 
 
-            {error && <Error icon={'info-circle'} text={error} />}
+            {/* // TODO Permitir ver el nombre del archivo antes de mandar */}
+            <div className='auth-field'>
+                <div className='auth-label-container'>
+                    <label className='auth-label'>Foto de perfil</label>
+                    <button style={{ padding: '8px', borderRadius: '8px', fontSize: '1em' }} onClick={() => uploadFile()}>Subir archivo</button>
+                </div>
+            </div>
+
+            {error && <Error icon={'info-circle'} content={error} />}
 
             <button className='auth-button' type='submit'>Continuar</button>
-        </form>     
+        </form>
     );
 };
+
+// fovewop856@lapeds.com
 
 export default Register;

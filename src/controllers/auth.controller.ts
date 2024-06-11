@@ -1,162 +1,147 @@
-import { Request, Response } from 'express';
-import * as jwt from 'jsonwebtoken';
+import { NextFunction, Request, Response } from 'express';
+import { JwtPayload } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 import User from '@/models/User';
+import UserSession from '@/models/UserSession';
 
-import { connect, disconnect } from '@/api/db';
-import { sendVerifyUserMail } from '@/api/mail';
-import { signToken, verifyToken } from '@/api/token';
+import { sendVerifyUserMail } from '@/utils/mail';
+import { verifyToken } from '@/utils/token';
+import { logAndSendError, logError } from '@/utils/log';
 
 import { NOT_FOUND, OK, UNAUTHORIZED } from '@/constants/httpCodes';
 import { HOME } from '@/constants/pageRoutes';
+import { reject } from '@/errors/ServerError';
+import { setCookie, sendResponse } from '@/utils/responses';
 
 // TODO checkeo para que la contraseña cumpla características
-
 export const register = async (req: Request, res: Response) => {
-    const { email, password, passwordConfirm, info } = req.body;
-
-    await connect();
+    const { email, password, info } = req.body;
 
     await User.findOne({ email: email })
         .then(async (user) => {
-            if (user) {
-                res.status(UNAUTHORIZED).json('El email no es válido');
-                return;
-            }
+            if (user)
+                return reject(UNAUTHORIZED, 'Tu email no es válido');
 
-            if (password !== passwordConfirm) {
-                res.status(UNAUTHORIZED).json('Las contraseñas no coinciden');
-                return;
-            }
-
-            const hashedPassword = bcrypt.hashSync(password, 10);
-            await User.create({ email: email, password: hashedPassword, info: info })
-                .then(async (res) => {
-                    const payload = { userId: res._id, userRole: res.info.role };
-                    const emailToken = signToken(payload, '2d');
-
-                    const fullName = `${res.info.name}  ${res.info.surname}`;
-                    sendVerifyUserMail(fullName, res.email, emailToken)
-                        .catch(err => console.log(err));
+            const hash = bcrypt.hashSync(password, 10);
+            await User.create({ email: email, password: hash, info: info })
+                .then(async (newUser) => {
+                    sendVerifyUserMail(newUser).catch(err => logError(err));
+                    sendResponse(OK);
                 })
-                .catch(err => {
-                    console.log(err);
-                    res.status(UNAUTHORIZED).json('Algo ha ido mal al registrarte');
-                    return;
-                });
-
-            res.sendStatus(OK);
+                .catch(err => logAndSendError(err));
         })
-        .catch(err => {
-            console.log('ERR:', req.method, req.originalUrl);
-            console.log(err);
-            res.status(NOT_FOUND).json('Error conectando con el servidor');
-        });
-
-    await disconnect();
+        .catch(err => logAndSendError(err));
 };
 
-export const login = async (req: Request, res: Response) => {
+// TODO
+export const login = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
 
-    await connect();
-
     await User.findOne({ email: email })
         .then(async (user) => {
-            if (!user || !bcrypt.compareSync(password, user.password)) {
-                res.status(UNAUTHORIZED).json('Tu email o contraseña no son correctos');
-                return;
-            }
+            if (!user || !bcrypt.compareSync(password, user.password)) 
+                return reject(UNAUTHORIZED, 'Tu email o contraseña no son correctos');
 
-            if (bcrypt.compareSync(password, user.password)) {
-                const payload = { userId: user.id, userRole: user.info.role };
-            } else {
-                res.status(UNAUTHORIZED).json('Hay un error con tu usuario');
-                return;
-            }
-
-            if (user.active === false) {
-                res.status(UNAUTHORIZED).json('Tu cuenta está inactiva');
-                return;
-            }
+            if (!user.active)
+                return reject(UNAUTHORIZED, 'Tu cuenta está inactiva');
             
-            if (user.logged === false) {
-                user.logged = true;
-                await user.save()
-                    .catch(err => console.log(err));
-            }
+            user.lastLogin = new Date();
 
-            res.sendStatus(OK);
+            await user.save().catch(err => logError(err));
+
+            const { _id, role } = user;
+            await UserSession.create({ userId: _id, role })
+                .then(userSession => {
+                    setCookie('sessionToken', { userId: userSession._id, role });
+                    sendResponse(OK, { role });
+                })
+                .catch(err => logAndSendError(err));
         })
-        .catch(err => {
-            console.log('ERR:', req.method, req.originalUrl);
-            res.sendStatus(NOT_FOUND);
-        });
-
-    await disconnect();
+        .catch(err => logAndSendError(err));
 };
 
-export const verifyMailToken = async (req: Request, res: Response) => {
+export const logout = async (req: Request, res: Response, next: NextFunction) => {
+    const { session } = req.body;
+    const { sessionId } = verifyToken(session) as JwtPayload;
+
+    await UserSession.findOne({ _id: sessionId })
+        .then(async (session) => {
+            if (!session) 
+                return reject(UNAUTHORIZED, 'Fallo en la sesión');
+
+            if (session.active)
+                return reject(UNAUTHORIZED, 'Tu cuenta está inactiva');
+
+            session.active = false;
+            session.lastActivity = new Date();
+
+            await session.save().catch(err => logError(err));
+
+            sendResponse(OK, { role: 'anon' });
+        })
+        .catch(err => logAndSendError(err));
+};
+
+/**
+ * Comprueba el token de sesión. Si no existe, lo envía.
+ */
+export const verifySession = async (req: Request, res: Response, next: NextFunction) => {
+    const { sessionToken } = req.cookies;
+    
+    if (!sessionToken) {
+        setCookie('sessionToken', { sessionId: null, role: 'anon' });
+        return sendResponse(OK, { role: 'anon' });
+    }
+        
+    const { sessionId, role } = verifyToken(sessionToken) as JwtPayload;
+    
+    if (!sessionId || role === 'anon')
+        return sendResponse(OK, { role: 'anon' });
+        
+    await UserSession.findOne({ _id: sessionId })
+        .then(async (session) => {
+            if (!session)
+                return reject(NOT_FOUND, 'La sesión no existe');
+
+            if (!session.active)
+                return reject(UNAUTHORIZED, 'La sesión no está activa o ha caducado');
+            
+            sendResponse(OK, { role });
+        })
+        .catch(err => logAndSendError(err));
+};
+
+export const verifyMailToken = async (req: Request, res: Response, next: NextFunction) => {
     const { token } = req.body;
-
-    const { userId, userRole } = verifyToken(token) as jwt.JwtPayload;
-
-    await connect();
+    const { userId } = verifyToken(token) as JwtPayload;
 
     await User.findOne({ _id: userId })
         .then(async (user) => {
-            if (!user) {
-                res.sendStatus(NOT_FOUND);
-                return;
-            }
+            if (!user)
+                return reject(NOT_FOUND, 'Usuario no encontrado');
 
-            if (user.active === false) {
+            if (!user.active) {
                 user.active = true;
-                res.location(HOME);
-                res.sendStatus(OK);
-                await user.save()
-                    .catch(err => console.log(err));
+                await user.save().catch(err => logError(err));
             }
 
+            res.status(OK).location(HOME);
         })
-        .catch(err => {
-            console.log('ERR:', req.method, req.originalUrl);
-            console.log(err);
-            res.sendStatus(NOT_FOUND);
-        });
-
-    await disconnect();
+        .catch(err => logAndSendError(err));
 };
 
 // TODO mandar token nuevo cuando caduca
-// app.post('/resend-verification/:token', async (req, res) => {
-//     const { token } = req.body;
+export const resendVerifyMailToken = async (req: Request, res: Response) => {
+    const token = req.query.token as string;
+    const { userId } = verifyToken(token) as JwtPayload;
 
-//     const { userId, userRole } = verifyToken(token) as jwt.JwtPayload;
+    await User.findOne({ _id: userId })
+        .then(async (user) => {
+            if (!user) return reject(UNAUTHORIZED, 'El usuario no es existe');
 
-//     await connect();
-
-//     await User.findOne({ _id: userId })
-//         .then(async (user) => {
-//             if (!user) {
-//                 res.sendStatus(NOT_FOUND);
-//                 return;
-//             }
-
-//             if (user.active === false) {
-//                 user.active = true;
-//                 res.location(HOME);
-//                 res.sendStatus(OK);
-//                 await user.save()
-//                     .catch(err => console.log(err));
-//             }
-
-//         })
-//         .catch(err => {
-//             console.log('ERR:', req.method, req.originalUrl);
-//             console.log(err);
-//         });
-
-//     await disconnect();
-// });
+            sendVerifyUserMail(user).catch(err => logError(err));
+            sendResponse(OK);
+        })
+        .catch(err => logAndSendError(err));
+};

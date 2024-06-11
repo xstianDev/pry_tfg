@@ -3,19 +3,14 @@ import React from 'react';
 import FooterCol from './FooterCol';
 import footerCols from '@/assets/js/footerCols';
 
-import { Column } from '@/types';
+import { IFooterColumn } from '@/types';
 
 const FooterCols = () => {
     return (
         <div className='footer-columns'>
-            {footerCols.map((col: Column, colIdx: number) => {
-                return (
-                    <FooterCol 
-                        key={`col_${colIdx}`}
-                        col={col}
-                    />
-                );
-            })}
+            {footerCols.map((col: IFooterColumn, colIdx: number) => 
+                <FooterCol key={`col_${colIdx}`} {...{ col, colIdx }} />
+            )}
         </div>
     );
 };

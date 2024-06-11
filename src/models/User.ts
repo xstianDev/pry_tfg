@@ -1,39 +1,33 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, ObjectId, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
+import { UserInfo, UserRole } from '@/types';
 
 export interface UserDocument extends Document {
     email: string,
     password: string,
+    role: UserRole
     signDate: Date,
     lastLogin: Date,
-    info: {
-        name: string,
-        surname: string,
-        gender: string,
-        role: string,
-        birthday: Date,
-        address: {
-            street: string,
-            city: string,
-            country: string,
-            zipCode: string
-        },
-    },
-    logged: boolean,
+    profilePic: ObjectId,
+    sessions: ObjectId[],
+    info: UserInfo,
     active: boolean
     banned: boolean
 }
 
+// TODO adaptar código al nuevo Schema
 const userSchema = new Schema<UserDocument>({
     email: { type: String, required: true, lowercase: true, trim: true, unique: true },
     password: { type: String, required: true, trim: true },
+    role: { type: String, required: true, trim: true, default: 'user' },
     signDate: { type: Date, default: new Date() },
     lastLogin: { type: Date, default: null },
+    profilePic: { type: Schema.Types.ObjectId, ref: 'Upload', default: null },
+    sessions: [{ type: Schema.Types.ObjectId, ref: 'UserSession', default: null }],
     info: {
         name: { type: String, required: true, trim: true },
         surname: { type: String, required: true, trim: true },
         gender: { type: String, required: true, trim: true },
-        role: { type: String, required: true, trim: true },
         birthday: { type: Date, required: true },
         address: {
             street: { type: String, trim: true, default: 'default' },
@@ -42,10 +36,12 @@ const userSchema = new Schema<UserDocument>({
             zipCode: { type: String, trim: true, default: 'default' }
         },
     },
-    logged: { type: Boolean, default: false },
     active: { type: Boolean, default: false },
     banned: { type: Boolean, default: false }
-}, { versionKey: false });
+}, {
+    versionKey: false,
+    collection: 'users'
+});
 
 
 // Antes de guardar el usuario en la base de datos, hasheamos la contraseña

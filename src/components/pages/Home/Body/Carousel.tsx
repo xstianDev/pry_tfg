@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import carousel from '@/assets/js/carousel';
 
 export const Carousel = () => {
-    const listRef = useRef<HTMLElement>();
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const listRef = useRef<HTMLElement>(null);
+    const [currentIndex, setCurrentIndex] = useState<number>(0);
 
 
     useEffect(() => {

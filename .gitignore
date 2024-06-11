@@ -8,11 +8,12 @@ node_modules/
 dist/
 
 # config
-.vscode/
+.vscode*/
 jsconfig.json
 *.tsbuildinfo
 
 # misc
 certs/
+logs/
 *.log
 *.rest

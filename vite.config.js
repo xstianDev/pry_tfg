@@ -15,6 +15,9 @@ export default defineConfig({
   },
   build: {
     target: ['esnext'],
+    commonjsOptions: {
+      sourceMap: false
+    },
     rollupOptions: {
       input: {
         app: './public/index.html',
@@ -34,6 +37,10 @@ export default defineConfig({
       {
         find: '@img',
         replacement: `${path.resolve('src', 'assets', 'img')}`
+      },
+      {
+        find: '@svg',
+        replacement: `${path.resolve('src', 'assets', 'svg')}`
       },
       {
         find: '@js',

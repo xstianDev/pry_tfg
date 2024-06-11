@@ -1,3 +1,5 @@
+/* @import 'reset.css'; */
+
 * {
     margin: 0;
     padding: 0;
@@ -7,16 +9,36 @@
 
 :root {
     --normal-font: 1em;
+    --pale-red: #f55757;
+    --pale-yellow: #ffe26e;
+    --pale-green: #6eff7a;
+    --pale-blue: #6e9cff;
+
+    --white-transparent-50: rgba(255, 255, 255, 0.5);
+    --white-transparent-60: rgba(255, 255, 255, 0.6);
+
+    --black-transparent-40: rgba(0, 0, 0, 0.4);
+    --black-transparent-75: rgba(0, 0, 0, 0.75);
+    --black-transparent-80: rgba(0, 0, 0, 0.8);
 }
+
 /* 
 html.dark {} 
 */
 
+/* @ media (prefers-color-scheme: dark) */
+
+html, body, #root {
+    height: 100%;
+    overflow-x: hidden;
+}
+
 body {
     height: 100%;
-    font-family: 'Rubik', 'Lato','Segoe UI', sans-serif;
-    /* background-color: rgba(19, 13, 56, .7); */
+    font-family: 'Rubik', 'Lato', 'Segoe UI', sans-serif;
     background: url('@img/fondo.jpg') no-repeat;
+    /* background-color: #10003a; */
+    /* background-color: rgba(19, 13, 56, 0.7); */
 }
 
 h1 {
@@ -32,10 +54,35 @@ a {
     text-decoration: none !important;
 }
 
-.container {
-    width: 100%;
-    padding: 32px;
-    border-radius: 16px;
+ul {
+    list-style-position: inside;
+}
 
-    background-color: rgba(255, 255, 255);
+
+.global-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.red {
+    background-color: var(--pale-red);
+}
+.yellow {
+    background-color: var(--pale-yellow);
+}
+.blue {
+    background-color: var(--pale-blue);
+}
+.green {
+    background-color: var(--pale-green);
+}
+.white {
+    background-color: white;
+}
+
+.wrapper {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto; 
 }

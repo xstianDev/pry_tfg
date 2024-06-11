@@ -1,37 +1,61 @@
+import { MessageContent } from '@/types';
 import React, { useEffect, useState } from 'react';
-import io from 'socket.io';
 
-import ChatContainer from './ChatContainer';
 import ChatMessageBox from './ChatMessageBox';
+import ChatMessages from './ChatMessages';
+import { useSocketContext } from '@/context/SocketContext';
+import ChatRoomName from './ChatRoomName';
 
-const socket = io('http://localhost:5000');
 
 const ChatRoom = () => {
     const [myId, setMyId] = useState('');
     const [otherId, setOtherId] = useState('');
+    const [message, setMessage] = useState<MessageContent>('');
     const [messages, setMessages] = useState([]);
+    const { socket } = useSocketContext();
     
     useEffect(() => {
+        if (!socket) return;
+
+        socket.on('connect', () => {
+            console.log('cliente conectado');
+        });
+
         socket.on('message', (message) => {
             setMessages((messages) => [...messages, message]);
         });
-    }, []);
-    
-    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+        
+        return () => {
+            socket.off('connect');
+            socket.off('message');
+        };
+    }, [socket]);
+            
+    useEffect(() => {
+        if (!socket) return;
+        
+        const { event, content } = (typeof message === 'string') 
+            ? { event: 'send', content: { message } }
+            : { event: 'upload', content: { image: message } };        
+        
+        socket.emit(event, content);
+        /*
         if (name && message) {
             socket.emit('sendMessage', { name, message });
             setName('');
             setMessage('');
         }
-    };
-    
+        */
+    }, [message]);
+
     return (
-        <>
-            <ChatContainer />
-            <ChatMessageBox />
-            <button onClick={handleSubmit}></button>
-        </>
+        <div className='chat-room-wrapper'>
+            <div className='chat-room-container'>
+                <ChatRoomName />
+                <ChatMessages />
+            </div>
+            <ChatMessageBox cb={setMessage} />
+        </div>
     );
 };
 

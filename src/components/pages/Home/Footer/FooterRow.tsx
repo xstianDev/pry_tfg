@@ -1,20 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Row } from '@/types';
+import { IFooterRow } from '@/types';
 
-interface FooterRowProps {
+export interface FooterRowProps {
+    row: IFooterRow;
     colIdx: number;
-    row: Row;
+    rowIdx: number;
 }
 
-const FooterRow = ({ colIdx, row }: FooterRowProps) => {
-    const { rowIdx, text, url } = row;
-    return (
-        <div className={`row row_${colIdx}_${rowIdx}`}>
-            <Link to={url}>{text}</Link>
-        </div>
-    );
-};
+const FooterRow = ({ row: { text, url }, colIdx, rowIdx }: FooterRowProps) => (
+    <div className={`row row_${colIdx}_${rowIdx}`}>
+        <Link to={url}>{text}</Link>
+    </div>
+);
 
 export default FooterRow;

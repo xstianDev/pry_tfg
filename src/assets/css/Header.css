@@ -4,7 +4,7 @@
 
 /* Header wrapper */
 .header-wrapper {
-    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    border-bottom: 2px solid var(--white-transparent-50);
     z-index: 100;
 
     top: 0;
@@ -14,15 +14,128 @@
     flex-direction: column;
     justify-content: space-between;
 }
-.header-wrapper a {
-    font-weight: bold;
-    font-size: 1.5em;
-    color: white;
-}
-.header-wrapper a:visited {
-    color: white;
-}
 .header-sticky {
     top: 0;
     position: sticky;
+}
+
+
+/* ********************* *
+ *   Accesibility   *
+ * ********************* */
+
+/* Accesibility wrapper */
+.accesibility-wrapper {
+    width: 100%;
+    height: 26px;
+    border-bottom: 2px solid var(--white-transparent-60);
+
+    background-color: black;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* ********** *
+ *   Navbar   *
+ * ********** */
+
+/* Navbar wrapper */
+.navbar-wrapper {
+    width: 100%;
+    height: 68px;
+
+    background-color: var(--black-transparent-80);
+    backdrop-filter: blur(4px);
+}
+
+/* Navbar container */
+.navbar-container {
+    height: 100%;
+    margin: 0 7.5%;
+
+    display: flex;
+    justify-content: space-between;
+}
+.navbar-container .image {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: block;
+}
+
+
+/* Navbar part */
+.navbar-part {
+    height: 100%;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar-part div {    
+    display: flex;
+    align-items: center;
+
+    transition: 300ms;
+    cursor: pointer;
+}
+
+/* Navbar part left */
+.navbar-part-left div {
+    height: 100%;
+    position: relative;
+    
+    transition: 400ms;
+}
+.navbar-part-left a,
+.navbar-part-left a:visited {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: white; 
+}
+.navbar-links {
+    height: 100%;
+
+    display: flex;
+}
+
+
+.navbar-button a {
+    border-right: 1px solid gray;
+    padding: 4px 16px;
+}
+.navbar-button:hover {
+    position: relative;
+    background-color: rgba(0, 132, 255, 0.2);
+    backdrop-filter: blur(4px);
+    
+    transition: 400ms;
+}
+
+/* Navbar part right */
+.user-submenu-wrapper {
+    position: absolute;
+    top: 68px;
+    right: calc(100vw / 13);
+    
+    background-color: white;
+    border-top-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border: 2px solid var(--white-transparent-60);
+}
+
+.user-submenu-container {
+    padding: 16px;
+    
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+}
+.user-submenu-container a,
+.user-submenu-container a:visited {
+    color: black;
 }

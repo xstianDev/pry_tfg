@@ -5,7 +5,7 @@ const Error404 = () => {
     return (
         <div className='error-container'>
             <div>
-                <span>No hemos encontrado la URL {window.location.href}</span>
+                <span>No hemos encontrado la URL {window.location.pathname}</span>
             </div>
         </div>
     );

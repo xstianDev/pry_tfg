@@ -1,16 +1,22 @@
-import React from 'react';
+import '@css/error.css';
+import React, { ReactNode } from 'react';
+import Icon from '../handlers/Icon';
+import { BootstrapIcon } from '@/types';
 
-interface ErrorProps {
-    icon: string
-    text: string
+export interface ErrorProps {
+    icon: BootstrapIcon
+    content: string | ReactNode
 }
 
-const Error = (props: ErrorProps) => {
-    const { icon, text } = props;    
+const Error = ({ icon, content }: ErrorProps) => {
+    const error = (typeof content === 'string')
+        ? <span>{content}</span>
+        : content;
+
     return (
-        <div className='auth-error-container'>
-            <i className={`bi bi-${icon}`}></i>
-            <span>{ text }</span>
+        <div className='error-container'>
+            <Icon name={icon} />
+            {error}
         </div>
     );
 };

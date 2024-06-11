@@ -1,0 +1,10 @@
+.error-container {
+    margin-bottom: 24px;
+    padding: 8px;
+
+    border-radius: 8px;
+    background-color: var(--pale-red);
+
+    display: flex;
+    justify-content: space-between;
+}

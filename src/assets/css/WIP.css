@@ -1,0 +1,83 @@
+.wip-wrapper {
+    background-color: white;
+    overflow: hidden;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wip-bar-container {
+    height: 70px;
+    width: 100vw;
+
+    overflow: hidden;
+    position: relative;
+}
+
+.wip-bar-pattern {
+    width: 200%;
+    height: 70px;
+
+    position: relative;
+    background-image: repeating-linear-gradient(
+        -45deg,
+        black 0%,
+        black 10%,
+        transparent 10%,
+        transparent 40%,
+        black 40%,
+        black 60%,
+        transparent 60%,
+        transparent 90%,
+        black 90%,
+        black 100%
+    );
+    background-color: var(--pale-yellow);
+    background-size: 70px 70px;
+    z-index: 0;
+}
+.wip-bar-shadow {
+    height: 70px;
+    width: 100vw;
+    
+    position: absolute;
+    top: 0;
+
+    background: linear-gradient(
+        90deg, 
+        white 0%,
+        white 1%,
+        transparent 12.5%,
+        transparent 87.5%,
+        white 99%,
+        white 100%
+    );
+}
+
+.move-left {
+    animation: moveLeft 60s linear infinite
+}
+
+.move-right {
+    animation: moveRight 60s linear infinite
+}
+
+@keyframes moveLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes moveRight {
+    0% {
+        transform: translateX(-50%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}

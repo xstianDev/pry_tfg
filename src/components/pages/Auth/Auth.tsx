@@ -1,11 +1,10 @@
+import '@css/Auth.css';
 import React from 'react';
 
 import { AuthOption, Login, OAuth, Register } from '.';
 import { LOGIN, REGISTER } from '@/constants/pageRoutes';
 
-import '@css/Auth.css';
-
-interface AuthProps {
+export interface AuthProps {
     isRegister: boolean
 }
 
@@ -22,7 +21,7 @@ const Auth = ({ isRegister }: AuthProps) => {
 
     return (
         <div className='auth-wrapper'>
-            <div className='auth-container container'>
+            <div className='auth-container'>
                 {/* Auth */}
                 {isRegister ? <Register /> : <Login />}
 

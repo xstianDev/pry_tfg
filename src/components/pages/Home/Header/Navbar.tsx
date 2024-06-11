@@ -1,85 +1,66 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { NavbarButton } from '.';
+import NavbarButton from './NavbarButton';
+import UserSubmenu from './UserSubmenu';
 
 import navbarButtons from '@/assets/js/navbarButtons';
 
 import logo from '@img/logo.jpg';
-import anon from '@img/cabesa_gafa.png';
-import user from '@img/cabesa_flor.png';
+import anon from '@img/user/anon.png';
+import user from '@img/user/auth.png';
 
-import { LOGIN } from '@/constants/pageRoutes';
-import { Btn } from '@/types';
-
-import '@css/Navbar.css';
+import { HOME, LOGIN } from '@/constants/pageRoutes';
+import { INavbarButton } from '@/types';
+import { useAuthContext } from '@/context/AuthContext';
 
 
 const Navbar = () => {
-    const [isLogged, setIsLogged] = useState(false);
-    const [showUserSubmenu, setShowUserSubmenu] = useState(false);
+    const [showUserSubmenu, setShowUserSubmenu] = useState<boolean>(false);
+    const { auth } = useAuthContext();
 
-    useEffect(() => {
-        const userSubmenu = document.querySelector('.navbar-user');
+    const handleMouseOver = () => {
+        setShowUserSubmenu(true);
+    };
 
-        userSubmenu.addEventListener('mouseover', () => {
-            setShowUserSubmenu(true);
-            // console.log('mouseover', userSubmenu);
-        });
-        userSubmenu.addEventListener('mouseout', () => {
-            setShowUserSubmenu(false);
-            // console.log('mouseout', userSubmenu);
-        });
-    });
+    const handleMouseOut = () => {
+        setShowUserSubmenu(false);
+    };
 
     return (
-        <>
-            <div className='navbar-wrapper'>
-                <div className='navbar-container'>
-                    <div className='navbar-part navbar-part-left'>
-                        <div className='navbar-logo'>
+        <div className='navbar-wrapper'>
+            <div className='navbar-container'>
+                <div className='navbar-part navbar-part-left'>
+                    <div className='navbar-logo'>
+                        <Link to={HOME} className='user-image'>
                             <img 
                                 className='image' 
                                 src={logo} 
                                 alt='Logo' 
                             />
-                        </div>
-                        <nav className='navbar-links'>
-                            {navbarButtons.map((btn: Btn, idx: number) =>
-                                <NavbarButton 
-                                    key={`navBtn_${idx}`}
-                                    btn={btn}
-                                />
-                            )}
-                        </nav>
+                        </Link>
                     </div>
-                    <div className='navbar-part navbar-part-right'>
-                        <div className='navbar-user'>
-                            {/*  */}
-                            <Link to={LOGIN} className='user-image'>
-                                <img 
-                                    className='image' 
-                                    src={isLogged ? user : anon}
-                                    alt='User' 
-                                />
-                            </Link>
-                        </div>
-                        {/* Submenu (?) */}
+                    <nav className='navbar-links'>
+                        {navbarButtons.map((btn: INavbarButton, idx: number) =>
+                            <NavbarButton key={`navBtn_${idx}`} {...{ btn, idx }} />
+                        )}
+                    </nav>
+                </div>
+                <div className='navbar-part navbar-part-right' onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+                    <div className='navbar-user'>
+                        {/*  */}
+                        <Link to={auth.logged ? HOME : LOGIN} className='user-image'>
+                            <img 
+                                className='image' 
+                                src={auth.logged ? user : anon}
+                                alt='User' 
+                            />
+                        </Link>
                     </div>
+                    {showUserSubmenu && <UserSubmenu />}
                 </div>
             </div>
-            {showUserSubmenu ? 
-                <div className='navbar-user-submenu'>
-                    <div className='user-submenu-top'>
-                    
-                    </div>
-                    <div className='user-submenu-bottom'>
-                    
-                    </div>
-                </div>
-                : null
-            }
-        </>
+        </div>
     );
 };
 

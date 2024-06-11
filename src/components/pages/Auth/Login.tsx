@@ -1,75 +1,78 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from '@/api/axios';
+
+import { apiAuth } from '@/api/axios';
 
 import AuthField from './AuthField';
 import Error from '@/components/shared/errors/Error';
 
-import { OK } from '@/constants/httpCodes';
-import { FORGOT, HOME } from '@/constants/pageRoutes';
-import { API_AUTH } from '@/constants/apiRoutes';
+import { FORGOT, HOME, LOGIN } from '@/constants/pageRoutes';
+import { useAuthContext } from '@/context/AuthContext';
+import { sendError } from '@/api/error';
+import { useModalContext } from '@/context/ModalContext';
 
 
 const Auth = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [error, setError] = useState<string>('');
+    const { setAuth } = useAuthContext();
+    const { setModal } = useModalContext();
 
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // TODO token para que el registro sea efectivo antes de la redirección. 
-        await axios.post(API_AUTH, { email, password })
+        await apiAuth.post(LOGIN, { email, password })
             .then(res => {
-                if (res.status === OK) return navigate(HOME);
+                if (res.status !== 200) return;
+                
+                setModal({
+                    icon: 'check2-circle',
+                    text: 'Bienvenido',
+                    color: 'green',
+                });
+
+                setAuth({
+                    logged: true,
+                    role: res.data.role
+                });
+                
+                return navigate(HOME);
             })
             .catch(err => {
-                if (typeof err.response.data === 'string') setError(err.response.data);
-                if (!err.response.data || err.response.data === '') setError('Error desconocido');
+                sendError(err);
+                setError(err.response.data.error || 'Error desconocido');
             });
     };
 
     return (
-        <form className='auth-form' method='POST' onSubmit={handleSubmit}>
+        <form className='auth-form' method='POST' onSubmit={handleSubmit} noValidate>
             <h1 className='auth-title'>Inicia sesión</h1>
             
-            <AuthField 
+            <AuthField required
                 className='auth-email' 
                 labelText='Email' 
                 type='email' 
                 placeholder='pepe@gmail.com'
-                required={true}
-                cb={setEmail} 
-                extra={null}
+                cb={setEmail}
             />
 
-            <AuthField 
+            <AuthField required
                 className='auth-password' 
                 labelText='Contraseña' 
                 type='password' 
-                placeholder={null}
-                required={true}
                 cb={setPassword} 
                 extra={{
-                    tag: 
+                    tag:
                         <span className='auth-forgot-pass'>
-                            <Link to={FORGOT}>¿Olvidaste tu contraseña?</Link>
+                            <Link to={FORGOT} className='auth-link' tabIndex={-1}>¿Olvidaste tu contraseña?</Link>
                         </span>,
-                    bottom:
-                        <div className='auth-password-requirements'>
-                            <p>Una contraseña válida debe tener:</p>
-                            <ul style={{ listStylePosition: 'inside' }}>
-                                <li>Al menos 8 caracteres.</li> 
-                                <li>Una letra mayúscula.</li>
-                                <li>Un carácter especial (/, #, ...).</li> 
-                            </ul>
-                        </div>
                 }}
             />
 
-            {error && <Error icon={'info-circle'} text={error} />}
+            {error && <Error icon={'info-circle'} content={error} />}
 
             <input className='auth-button' type='submit' value="Continuar" />
         </form>

@@ -1,24 +1,26 @@
-import React, { ReactNode, useEffect, useState } from 'react';
-import { AuthInputType, Optional } from '@/types';
+import React, { ReactNode, useState } from 'react';
+import { AuthInputType, EyeIcons, SetState } from '@/types';
+import Icon from '@/components/shared/handlers/Icon';
 
-interface AuthFieldProps {
-    className: string,
-    labelText: string,
-    type: AuthInputType,
-    placeholder: Optional<string>,
+export interface AuthFieldProps {
     required: boolean
-    cb: React.Dispatch<React.SetStateAction<string>>,
-    extra: Optional<{
-        tag: Optional<ReactNode>,
-        bottom: Optional<ReactNode>,
-    }> 
+    className: string
+    labelText: string
+    type: AuthInputType
+    cb: SetState<any>
+    placeholder?: string
+    extra?: {
+        tag?: ReactNode
+        bottom?: ReactNode
+    }
 }
 
-const AuthField = (props: AuthFieldProps) => {
-    const { className, labelText, type, placeholder, required, cb, extra } = props;
 
-    const [inputType, setInputType] = useState(type);
-    const [icon, setIcon] = useState('bi-eye-fill');
+const AuthField = (props: AuthFieldProps) => {
+    const { required, className, labelText, type, cb, placeholder, extra } = props;
+
+    const [currentType, setCurrentType] = useState<AuthInputType>(type);
+    const [icon, setIcon] = useState<EyeIcons>('eye-fill');
 
     return (
         <div className={`auth-field ${className}`}>
@@ -27,17 +29,17 @@ const AuthField = (props: AuthFieldProps) => {
                 {extra?.tag}
             </div>
             <input 
-                type={inputType}
+                type={currentType}
                 placeholder={placeholder}
                 onChange={e => cb(e.target.value)}
                 required={required}
             />
             {type === 'password' &&
                 <div className="password-toggle-icon" onClick={() => {
-                    setInputType(inputType === 'password' ? 'text' : 'password');
-                    setIcon(icon === 'bi-eye-fill' ? 'bi-eye-slash' : 'bi-eye-fill');
+                    setCurrentType(currentType === 'password' ? 'text' : 'password');
+                    setIcon(icon === 'eye-fill' ? 'eye-slash' : 'eye-fill');
                 }}>
-                    <i className={`bi ${icon}`}></i>
+                    <Icon name={icon} />
                 </div>
             }
             {extra?.bottom}

@@ -1,15 +1,20 @@
-// Chat.tsx
+import '@css/Chat.css';
+
 import React from 'react';
 import ChatSidebar from './ChatSidebar';
 import ChatRoom from './ChatRoom';
+import { SocketContextProvider } from '@/context/SocketContext';
 
-const ChatClient = () => {
+
+const Chat = () => {
     return (
-        <>
-            <ChatSidebar />
-            <ChatRoom />
-        </>
+        <SocketContextProvider>
+            <div className="chat-wrapper wrapper">
+                <ChatSidebar />
+                <ChatRoom />
+            </div>
+        </SocketContextProvider>
     );
 };
 
-export default ChatClient;
+export default Chat;

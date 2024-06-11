@@ -1,0 +1,51 @@
+.modal-wrapper {
+    width: 400px;
+    height: 100px;
+    margin: 0 auto;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0px 0px 16px 4px var(--black-transparent-75);
+
+    position: absolute;
+    top: -150px;
+    right: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    z-index: 1000;
+}
+
+.modal-wrapper span {
+    font-size: large;
+}
+
+.modal-wrapper i {
+    font-size: 24px;
+    line-height: 1;
+    color: black;
+}
+
+.animation {
+    animation: moveDown 1s ease-out forwards, moveUp 1s ease-out 3s forwards;
+}
+
+@keyframes moveDown {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(300px);
+    }
+}
+
+@keyframes moveUp {
+    0% {
+        transform: translateY(300px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

@@ -1,20 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-interface AuthOptionProps {
+export interface AuthOptionProps {
     paragraph: string,
     url: string,
     text: string
 }
 
-const AuthOption = (props: AuthOptionProps) => {
-    const { paragraph, url, text } = props;
-    return (
-        <div className='auth-option-container'>
-            <p>{paragraph}</p>
-            <Link to={url}>{text}</Link>
-        </div>
-    );
-};
+const AuthOption = ({ paragraph, url, text }: AuthOptionProps) => (
+    <div className='auth-option-container'>
+        <p>{paragraph}</p>
+        <Link to={url} className='auth-link'>{text}</Link>
+    </div>
+);
 
 export default AuthOption;

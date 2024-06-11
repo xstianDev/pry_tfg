@@ -23,13 +23,14 @@
       "@/*": ["src/*"],
       "@css/*": ["public/assets/css/*"],
       "@img/*": ["public/assets/img/*"],
+      "@svg/*": ["public/assets/svg/*"],
       "@js/*": ["src/assets/js/*"]
     },
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.js"
+    "src/**/*.js",
   ],
   "files": ["src/types/index.d.ts"],
   "exclude": ["node_modules"]

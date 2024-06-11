@@ -1,20 +1,23 @@
-import mongoose, { Document, ObjectId, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
+import logger from '@/lib/logger';
 
 export interface UserSessionDocument extends Document {
-    userId: ObjectId,
-    token: string,
-    lastActivity: Date
+    lastActivity: Date,
+    active: boolean
 }
 
+// TODO adaptar código al nuevo Schema
 const userSessionSchema = new Schema<UserSessionDocument>({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    token: { type: String, required: true },
-    lastActivity: { type: Date, default: Date.now },
-}, { versionKey: false });
+    lastActivity: { type: Date, default: new Date() },
+    active: { type: Boolean, required: true, default: true },
+}, {
+    versionKey: false,
+    collection: 'user_sessions'
+});
 
 userSessionSchema.pre('save', async function (next) {
-    const session = this as UserSessionDocument;    
-    console.log(session);
+    const session = this as UserSessionDocument;
+    logger.info(session);
 
     next();
 });

@@ -1,22 +1,40 @@
 import mongoose, { Document, ObjectId, Schema } from 'mongoose';
+import { MessageType } from '@/types';
+import logger from '@/lib/logger';
 
 export interface MessageDocument extends Document {
-    from: ObjectId,
+    chatSessionId: ObjectId,
+    sentBy: ObjectId,
+    imageId: ObjectId,
     text: string,
-    sent: Date,
+    type: MessageType
+    sentAt: Date,
+    updatedAt: Date,
+    updated: boolean,
     deleted: boolean,
 }
 
+const EMessageType: MessageType[] = ['text', 'image/png', 'image/jpeg'];
+
+// ! TODO validators para que solo haya texto o imagen
 const messageSchema = new Schema<MessageDocument>({
-    from: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    text: { type: String, required: true },
-    sent: { type: Date, default: new Date() },
+    chatSessionId: { type: Schema.Types.ObjectId, ref: 'ChatSession', required: true },
+    sentBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    imageId: { type: Schema.Types.ObjectId, ref: 'Image', default: null },
+    text: { type: String, default: null },
+    type: { type: String, required: true, enum: EMessageType },
+    sentAt: { type: Date, default: new Date() },
+    updatedAt: { type: Date, default: null },
+    updated: { type: Boolean, default: false },
     deleted: { type: Boolean, default: false },
-}, { versionKey: false });
+}, { 
+    versionKey: false,
+    collection: 'messages'
+});
 
 messageSchema.pre('save', async function (next) {
-    const message = this as MessageDocument;    
-    console.log(message);
+    const message = this as MessageDocument;
+    logger.info(message);
 
     next();
 });

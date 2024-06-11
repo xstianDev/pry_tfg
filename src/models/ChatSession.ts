@@ -1,24 +1,31 @@
-import { ChatSessionType } from '@/types';
 import mongoose, { Document, ObjectId, Schema } from 'mongoose';
+import { ChatSessionType } from '@/types';
+import logger from '@/lib/logger';
 
 export interface ChatSessionDocument extends Document {
-    name: string,
+    name: string | null,
     type: ChatSessionType
-    users: string[],
+    participants: ObjectId[],
+    messages: ObjectId[],
     lastActivity: Date
-    // userId: ObjectId,
-    // userId: ObjectId,
 }
 
+const EChatSession: ChatSessionType[] = ['chat', 'group'];
+
 const chatSessionSchema = new Schema<ChatSessionDocument>({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    token: { type: String, required: true },
-    lastActivity: { type: Date, default: Date.now },
-}, { versionKey: false });
+    name: { type: String, required: false, default: null },
+    type: { type: String, required: true, enum: EChatSession },
+    participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    messages: [{ type: Schema.Types.ObjectId, ref: 'Message' }],
+    lastActivity: { type: Date, default: new Date() },
+}, { 
+    versionKey: false,
+    collection: 'chat_sessions'
+});
 
 chatSessionSchema.pre('save', async function (next) {
     const session = this as ChatSessionDocument;    
-    console.log(session);
+    logger.info(session);
 
     next();
 });

@@ -1,11 +1,5 @@
 // Config
-import dotenv from 'dotenv';
-const env = dotenv.config().parsed;
-
-const PROTOCOL = env.PROTOCOL || 'https';
-const HOST = env.HOST || 'localhost';
-const WSS_PORT = env.WSS_PORT || 4001;
-const serverName = `${PROTOCOL}://${HOST}:${WSS_PORT}`;
+import { PASSPHRASE, HTTP_PROTOCOL, WSS_PORT, wssOrigin } from '@/utils/config';
 
 // Node
 import fs from 'fs';
@@ -20,33 +14,45 @@ const app = express();
 // Socket.io
 import { Server } from 'socket.io';
 
+// lib
+import logger from '@/lib/logger';
 
 const PRIVATE_KEY = fs.readFileSync(path.resolve('certs/socket', 'socket_private.key'));
 const CERTIFICATE = fs.readFileSync(path.resolve('certs/socket', 'socket_cert.crt'));
-const PASSPHRASE = env.PASSPHRASE;
 const credentials = {
     key: PRIVATE_KEY,
     cert: CERTIFICATE,
     passphrase: PASSPHRASE,
 };
 
-const server = (PROTOCOL === 'http') 
+
+const server = (HTTP_PROTOCOL === 'http') 
     ? http.createServer(app)
     : https.createServer(credentials, app);
 
 const io = new Server(server, {
     cors: {
-        origin: [serverName],
-        methods: ['GET', 'POST']
+        origin: '*',
+        // origin: httpsOrigin,
+        methods: ['GET', 'POST'],
+        credentials: true
     }
 });
 
 io.on('connection', (socket) => {
-    console.log('Usuario conectado:', socket.id);
+    logger.info(`Usuario conectado: ${socket.id}`);
+
+    socket.on('send', (args) => {
+        console.log('send', args);
+    });
+
+    socket.on('upload', (args) => {
+        console.log('upload', args);
+    });
 
     socket.on('disconnect', () => {
-        console.log('Usuario desconectado:', socket.id);
+        logger.info(`Usuario desconectado: ${socket.id}`);
     });
 });
 
-export { app, io, server };
+server.listen(WSS_PORT, () => console.log(`Socket server running: ${wssOrigin}`));

@@ -1,23 +1,25 @@
-const navbarButtons = [
+import { INavbarButton } from '@/types';
+
+const navbarButtons: INavbarButton[] = [
     {
-        id: 1,
         text: 'Salud mental',
         url: 'salud-mental',
     },
     {
-        id: 2,
         text: 'Desarrollo personal',
         url: 'desarrollo-personal',
     },
     {
-        id: 3,
         text: 'Servicios y productos',
         url: 'servicios-productos',
     },
     {
-        id: 4,
         text: 'Quienes somos',
         url: 'about',
+    },
+    {
+        text: 'Chat',
+        url: 'chat',
     },
 ];
 
