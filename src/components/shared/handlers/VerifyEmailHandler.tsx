@@ -5,20 +5,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { HOME } from '@/constants/pageRoutes';
 import { VERIFY_EMAIL } from '@/constants/apiRoutes';
 import { useModalContext } from '@/context/ModalContext';
+import { sendError } from '@/api/error';
 
 const VerifyEmailHandler = (): ReactNode => {
     const { setModal } = useModalContext();
     const { token } = useParams();
     const navigate = useNavigate();
 
-    console.log('entra')
-
-    // TODO probar
     useEffect(() => {
         apiAuth.post(VERIFY_EMAIL, { token })
             .then(res => {
-                console.log(res.status);
-
                 if (res.status !== 200) return;
 
                 setModal({
@@ -29,12 +25,14 @@ const VerifyEmailHandler = (): ReactNode => {
     
                 return navigate(HOME);
             })
-            .catch(() => setModal({
-                icon: 'exclamation-diamond',
-                text: 'Error activando tu cuenta',
-                color: 'red',
-            }));
-
+            .catch((err) => {
+                sendError(err);
+                setModal({
+                    icon: 'exclamation-diamond',
+                    text: 'Error activando tu cuenta',
+                    color: 'red',
+                });
+            });
     }, []);
 
     return null;

@@ -5,8 +5,8 @@ import FooterRow from './FooterRow';
 import { IFooterColumn, IFooterRow } from '@/types';
 
 export interface FooterColProps {
-    col: IFooterColumn
-    colIdx: number
+    col: IFooterColumn;
+    colIdx: number;
 } 
 
 const FooterCol = ({ col: { title, rows }, colIdx }: FooterColProps) => (

@@ -3,8 +3,8 @@ import React from 'react';
 import { MessageType } from '@/types';
 
 export interface MessageProps {
-    type: MessageType,
-    content: string
+    type: MessageType;
+    content: string;
 }
 
 const Message = (props: MessageProps) => {

@@ -3,7 +3,7 @@ import { SetState, MessageContent } from '@/types';
 import { uploadFile } from '@/api/upload';
 
 interface ChatMessageBoxProps {
-    cb: SetState<MessageContent>
+    cb: SetState<MessageContent>;
 }
 
 const ChatMessageBox = ({ cb }: ChatMessageBoxProps) => {

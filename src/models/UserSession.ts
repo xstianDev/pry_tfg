@@ -2,8 +2,8 @@ import mongoose, { Document, Schema } from 'mongoose';
 import logger from '@/lib/logger';
 
 export interface UserSessionDocument extends Document {
-    lastActivity: Date,
-    active: boolean
+    lastActivity: Date;
+    active: boolean;
 }
 
 // TODO adaptar código al nuevo Schema

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
 export interface AuthFieldGroupProps {
-    children: ReactNode
+    children: ReactNode;
 }
 
 const AuthFieldGroup = ({ children }: AuthFieldGroupProps) => (

@@ -1,4 +1,3 @@
-import { InternalAxiosRequestConfig } from 'axios';
 import { ObjectId } from 'mongoose';
 import { UserRole } from '.';
 

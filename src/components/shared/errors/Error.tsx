@@ -4,8 +4,8 @@ import Icon from '../handlers/Icon';
 import { BootstrapIcon } from '@/types';
 
 export interface ErrorProps {
-    icon: BootstrapIcon
-    content: string | ReactNode
+    icon: BootstrapIcon;
+    content: string | ReactNode;
 }
 
 const Error = ({ icon, content }: ErrorProps) => {
@@ -16,7 +16,9 @@ const Error = ({ icon, content }: ErrorProps) => {
     return (
         <div className='error-container'>
             <Icon name={icon} />
-            {error}
+            <div className='error-content'>
+                {error}
+            </div>
         </div>
     );
 };

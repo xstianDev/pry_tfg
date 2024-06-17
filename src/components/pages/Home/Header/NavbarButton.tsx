@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { INavbarButton } from '@/types';
 
 interface NavbarButtonProps {
-    btn: INavbarButton
-    idx: number
+    btn: INavbarButton;
+    idx: number;
 }
 
 const NavbarButton = ({ btn: { text, url }, idx }: NavbarButtonProps) => (

@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface ChatUserProps {
-    profilePicture: string,
-    name: string
+    profilePicture: string;
+    name: string;
 }
 
 const ChatUser = (props: ChatUserProps) => {

@@ -27,7 +27,7 @@ export const signEmailToken = (user: UserDocument) => {
 };
 
 // TODO el token debe caducar (generar uno nuevo cada vez)
-export const sendVerifyUserMail = async (user: UserDocument) => {
+export const sendVerifyUserEmail = async (user: UserDocument) => {
     const token = signEmailToken(user);
     const name = `${user.info.name} ${user.info.surname}`;
 

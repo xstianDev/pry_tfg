@@ -3,7 +3,7 @@ import { AuthContextProvider } from './AuthContext';
 import { ModalContextProvider } from './ModalContext';
 
 export interface ModalContextProps {
-    children: ReactNode
+    children: ReactNode;
 }
 
 const GlobalContextWrapper = ({ children }: ModalContextProps) => {

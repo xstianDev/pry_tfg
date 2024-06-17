@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import User from '@/models/User';
 import UserSession from '@/models/UserSession';
 
-import { sendVerifyUserMail } from '@/utils/mail';
+import { sendVerifyUserEmail } from '@/utils/mail';
 import { verifyToken } from '@/utils/token';
 import { logAndSendError, logError } from '@/utils/log';
 
@@ -26,7 +26,7 @@ export const register = async (req: Request, res: Response) => {
             const hash = bcrypt.hashSync(password, 10);
             await User.create({ email: email, password: hash, info: info })
                 .then(async (newUser) => {
-                    sendVerifyUserMail(newUser).catch(err => logError(err));
+                    sendVerifyUserEmail(newUser).catch(err => logError(err));
                     sendResponse(OK);
                 })
                 .catch(err => logAndSendError(err));
@@ -34,7 +34,6 @@ export const register = async (req: Request, res: Response) => {
         .catch(err => logAndSendError(err));
 };
 
-// TODO
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
 
@@ -112,12 +111,13 @@ export const verifySession = async (req: Request, res: Response, next: NextFunct
         .catch(err => logAndSendError(err));
 };
 
-export const verifyMailToken = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyEmailToken = async (req: Request, res: Response, next: NextFunction) => {
     const { token } = req.body;
     const { userId } = verifyToken(token) as JwtPayload;
 
     await User.findOne({ _id: userId })
         .then(async (user) => {
+            
             if (!user)
                 return reject(NOT_FOUND, 'Usuario no encontrado');
 
@@ -126,21 +126,22 @@ export const verifyMailToken = async (req: Request, res: Response, next: NextFun
                 await user.save().catch(err => logError(err));
             }
 
-            res.status(OK).location(HOME);
+            res.location(HOME).sendStatus(OK);
         })
         .catch(err => logAndSendError(err));
 };
 
 // TODO mandar token nuevo cuando caduca
-export const resendVerifyMailToken = async (req: Request, res: Response) => {
+export const resendVerifyEmailToken = async (req: Request, res: Response) => {
     const token = req.query.token as string;
     const { userId } = verifyToken(token) as JwtPayload;
 
     await User.findOne({ _id: userId })
         .then(async (user) => {
-            if (!user) return reject(UNAUTHORIZED, 'El usuario no es existe');
+            if (!user) 
+                return reject(UNAUTHORIZED, 'El usuario no es existe');
 
-            sendVerifyUserMail(user).catch(err => logError(err));
+            sendVerifyUserEmail(user).catch(err => logError(err));
             sendResponse(OK);
         })
         .catch(err => logAndSendError(err));

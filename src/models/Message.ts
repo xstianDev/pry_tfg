@@ -3,15 +3,15 @@ import { MessageType } from '@/types';
 import logger from '@/lib/logger';
 
 export interface MessageDocument extends Document {
-    chatSessionId: ObjectId,
-    sentBy: ObjectId,
-    imageId: ObjectId,
-    text: string,
-    type: MessageType
-    sentAt: Date,
-    updatedAt: Date,
-    updated: boolean,
-    deleted: boolean,
+    chatSessionId: ObjectId;
+    sentBy: ObjectId;
+    imageId: ObjectId;
+    text: string;
+    type: MessageType;
+    sentAt: Date;
+    updatedAt: Date;
+    updated: boolean;
+    deleted: boolean;
 }
 
 const EMessageType: MessageType[] = ['text', 'image/png', 'image/jpeg'];

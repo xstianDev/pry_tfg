@@ -50,6 +50,12 @@ i {
     color: black;
 }
 
+.icon {
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+}
+
 a {
     text-decoration: none !important;
 }

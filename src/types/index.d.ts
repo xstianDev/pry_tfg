@@ -4,8 +4,8 @@ import { InternalAxiosRequestConfig } from 'axios';
 import React from 'react';
 
 export interface INavbarButton {
-    text: string,
-    url: string
+    text: string;
+    url: string;
 }
 
 export interface IFooterRow {
@@ -14,7 +14,7 @@ export interface IFooterRow {
 }
 
 export interface IFooterColumn {
-    title: string,
+    title: string;
     rows: IFooterRow[];
 }
 
@@ -25,22 +25,22 @@ export interface IFooterSocial {
 }
 
 export interface UserInfo {
-    name: string,
-    surname: string,
-    gender: string,
-    birthday: Date,
-    address?: UserAddress,
+    name: string;
+    surname: string;
+    gender: string;
+    birthday: Date;
+    address?: UserAddress;
 }
 
 export interface UserAddress {
-    street?: string,
-    city?: string,
-    country?: string,
-    zipCode?: string
+    street?: string;
+    city?: string;
+    country?: string;
+    zipCode?: string;
 }
 
 export interface CustomError extends Error {
-    config?: InternalAxiosRequestConfig<any>
+    config?: InternalAxiosRequestConfig<any>;
 }
 
 export type SetState<T> = React.Dispatch<React.SetStateAction<T>>;

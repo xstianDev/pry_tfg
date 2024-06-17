@@ -3,8 +3,8 @@ import { ImageType } from '@/types';
 import logger from '@/lib/logger';
 
 export interface ImageDocument extends Document {
-    data: Buffer,
-    type: ImageType
+    data: Buffer;
+    type: ImageType;
 }
 
 const EImageType: ImageType[] = ['image/png', 'image/jpeg'];

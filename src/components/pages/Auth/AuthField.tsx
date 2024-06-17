@@ -3,16 +3,16 @@ import { AuthInputType, EyeIcons, SetState } from '@/types';
 import Icon from '@/components/shared/handlers/Icon';
 
 export interface AuthFieldProps {
-    required: boolean
-    className: string
-    labelText: string
-    type: AuthInputType
-    cb: SetState<any>
-    placeholder?: string
+    required: boolean;
+    className: string;
+    labelText: string;
+    type: AuthInputType;
+    cb: SetState<any>;
+    placeholder?: string;
     extra?: {
-        tag?: ReactNode
-        bottom?: ReactNode
-    }
+        tag?: ReactNode;
+        bottom?: ReactNode;
+    };
 }
 
 

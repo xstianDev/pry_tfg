@@ -3,16 +3,16 @@ import bcrypt from 'bcrypt';
 import { UserInfo, UserRole } from '@/types';
 
 export interface UserDocument extends Document {
-    email: string,
-    password: string,
-    role: UserRole
-    signDate: Date,
-    lastLogin: Date,
-    profilePic: ObjectId,
-    sessions: ObjectId[],
-    info: UserInfo,
-    active: boolean
-    banned: boolean
+    email: string;
+    password: string;
+    role: UserRole;
+    signDate: Date;
+    lastLogin: Date;
+    profilePic: ObjectId;
+    sessions: ObjectId[];
+    info: UserInfo;
+    active: boolean;
+    banned: boolean;
 }
 
 // TODO adaptar código al nuevo Schema

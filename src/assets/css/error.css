@@ -1,10 +1,16 @@
 .error-container {
     margin-bottom: 24px;
-    padding: 8px;
-
+    padding: 8px 16px;
+    
     border-radius: 8px;
     background-color: var(--pale-red);
-
+    
     display: flex;
     justify-content: space-between;
+}
+
+.error-content {
+    /* width: 100%; */
+    /* display: flex; */
+    /* justify-content: center; */
 }

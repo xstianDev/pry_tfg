@@ -5,7 +5,7 @@ import { AuthOption, Login, OAuth, Register } from '.';
 import { LOGIN, REGISTER } from '@/constants/pageRoutes';
 
 export interface AuthProps {
-    isRegister: boolean
+    isRegister: boolean;
 }
 
 const Auth = ({ isRegister }: AuthProps) => {

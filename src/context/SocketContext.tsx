@@ -6,12 +6,12 @@ import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 export type SocketIO = Socket<DefaultEventsMap, DefaultEventsMap>;
 
 export interface SocketContextProps {
-    children: ReactNode
+    children: ReactNode;
 }
 
 export interface SocketContextModel {
-    socket: SocketIO,
-    setSocket: SetState<SocketIO>
+    socket: SocketIO;
+    setSocket: SetState<SocketIO>;
 }
 
 export const useSocketContext = () => {

@@ -1,45 +1,43 @@
 // TODO mover al servidor
-let str: string;
-
 type Check = {
-    re: RegExp,
+    reg: RegExp,
     err: string
 }
 
 const passChecks: Check[] = [
     {
-        re: /(?=.{8,})/,
+        reg: /(?=.{8,})/,
         err: 'Tener al menos 8 caracteres' 
     },
     {
-        re: /(?=.*[a-zA-Z])/,
+        reg: /(?=.*[a-zA-Z])/,
+        err: 'Contener mayúsculas y minúsculas'
+    },
+    {
+        reg: /(?=.*[0-9])/,
         err: 'Incluir un número'
     },
     {
-        re: /(?=.*[0-9])/,
+        reg: /(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])/,
         err: 'Incluir un carácter especial'
-    },
-    {
-        re: /(?=.*[!@#$%^&*])/,
-        err: 'Contener mayúsculas y minúsculas'
     },
 ];
 
 const emailChecks: Check[] = [
     {
-        re: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        reg: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         err: 'Tu email no es correcto'
     }
 ];
 
-const check = (re: RegExp, err: string) => !re.test(str) ? err : null;
+const check = (str: string, reg: RegExp, err: string) => !reg.test(str) ? err : null;
 
-const runChecks = (checks: Check[]) => {
+const runChecks = (str: string, checks: Check[]) => {
     const errors = [];
 
     for (const regex of checks) {
-        const { re, err } = regex;
-        const error = check(re, err);
+        const { reg, err } = regex;
+        const error = check(str, reg, err);
         
         if (error) errors.push(error);
     }
@@ -47,14 +45,6 @@ const runChecks = (checks: Check[]) => {
     return errors;
 };
 
-export const checkPassword = (password: string) => {
-    str = password;
+export const checkPassword = (password: string) => runChecks(password, passChecks);
 
-    return runChecks(passChecks);
-};
-
-export const checkEmail = (email: string) => {
-    str = email;
-
-    return runChecks(emailChecks);
-};
+export const checkEmail = (email: string) => runChecks(email, emailChecks);

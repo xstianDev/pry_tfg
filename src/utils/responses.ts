@@ -15,8 +15,6 @@ export const setCookie = (name: string, payload: object, expiresIn?: string | nu
 export const sendResponse = (status: number, json?: object) => {
     const res: Response | null = serverContext.getResponse();
 
-    console.log("res", res.closed);
-
     return (json)
         ? res.status(status).json(json)
         : res.sendStatus(status);

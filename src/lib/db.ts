@@ -1,14 +1,14 @@
 // Atlas
+import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 
 import { ATLAS_URI } from '@/utils/config';
 import logger from './logger';
-import { NextFunction, Request, Response } from 'express';
 
 export const connect = async (req: Request) => {
     return mongoose.connect(ATLAS_URI)
         .then(() => {
-            logger.warn(`Conectado ${req.method} ${req.originalUrl}`);
+            logger.warn(`${req.method} ${req.originalUrl} + Conectado`);
         })
         .catch(err => logger.error(err));
 };
@@ -16,7 +16,7 @@ export const connect = async (req: Request) => {
 export const disconnect = async (req: Request) => {
     return mongoose.disconnect()
         .then(() => {
-            logger.warn(`Desconectado ${req.method} ${req.originalUrl}`);
+            logger.warn(`${req.method} ${req.originalUrl} + Desconectado`);
         })
         .catch(err => logger.error(err));
 };

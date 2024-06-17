@@ -11,6 +11,7 @@ import { UserAddress, UserGender, UserRole } from '@/types';
 import { sendError } from '@/api/error';
 import { uploadFile } from '@/api/upload';
 import { checkEmail, checkPassword } from '@/api/checks';
+import { useModalContext } from '@/context/ModalContext';
 
 
 const Register = () => {
@@ -29,6 +30,7 @@ const Register = () => {
     const [error, setError] = useState<string | ReactNode>('');
 
     const navigate = useNavigate();
+    const { setModal } = useModalContext();
     
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -62,7 +64,15 @@ const Register = () => {
 
         await apiAuth.post(REGISTER, { email, password, info })
             .then(res => {
-                if (res.status === 200) return navigate(HOME);
+                if (res.status === 200) {
+                    setModal({
+                        icon: 'check2-circle',
+                        text: 'Registro exitoso',
+                        color: 'green'
+                    });
+
+                    return navigate(HOME);
+                }
             })
             .catch(err => {
                 sendError(err);
@@ -116,7 +126,7 @@ const Register = () => {
                             <ul>
                                 <li>Al menos 8 caracteres.</li> 
                                 <li>Letras mayúsculas y minúsculas.</li>
-                                <li>Un carácter especial (/, #, ...).</li> 
+                                <li>Un carácter especial (#, $, %, ...).</li> 
                             </ul>
                         </div>
                 }}
@@ -140,7 +150,7 @@ const Register = () => {
 
             <AuthField required
                 className='auth-age' 
-                labelText='Edad' 
+                labelText='Fecha de nacimiento' 
                 type='date'
                 cb={setBirthday}
             /> 

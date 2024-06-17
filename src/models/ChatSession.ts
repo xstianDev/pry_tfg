@@ -3,11 +3,11 @@ import { ChatSessionType } from '@/types';
 import logger from '@/lib/logger';
 
 export interface ChatSessionDocument extends Document {
-    name: string | null,
-    type: ChatSessionType
-    participants: ObjectId[],
-    messages: ObjectId[],
-    lastActivity: Date
+    name: string | null;
+    type: ChatSessionType;
+    participants: ObjectId[];
+    messages: ObjectId[];
+    lastActivity: Date;
 }
 
 const EChatSession: ChatSessionType[] = ['chat', 'group'];

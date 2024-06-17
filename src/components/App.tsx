@@ -10,24 +10,32 @@ import { Error404 } from './shared/errors';
 import { VerifyEmailHandler, WIP, Redirect } from './shared/handlers';
 
 import { HOME, LOGIN, LOGOUT, REGISTER } from '@/constants/pageRoutes';
-import { VERIFY_SESSION, API_AUTH } from '@/constants/apiRoutes';
+import { VERIFY_SESSION, API_AUTH, VERIFY_EMAIL } from '@/constants/apiRoutes';
 import { useAuthContext } from '@/context/AuthContext';
 import { apiAuth } from '@/api/axios';
 import { sendError } from '@/api/error';
 import Modal from './shared/errors/Modal';
-import { useModalContext } from '@/context/ModalContext';
 
 interface AppProps {
-    isClient: boolean
+    isClient: boolean;
 }
+
+const isNotCheckable = () => {
+    const location = window.location.href;
+    const blacklist = ['/api/auth/verify/'];
+    for (const str in blacklist) {
+        if (location.includes(str)) return true;
+    }
+};
 
 const _Home = () => <Redirect to={HOME} />;
 
 const App = ({ isClient }: AppProps) => {
     const { auth, setAuth } = useAuthContext();
-    const { setModal } = useModalContext();
 
     useEffect(() => {
+        if (isClient && isNotCheckable()) return;
+
         apiAuth.post(VERIFY_SESSION)
             .then(res => {
                 if (res.status !== 200) return;
@@ -62,9 +70,10 @@ const App = ({ isClient }: AppProps) => {
                 <Route path='/servicios-productos' element={<WIP />} />
             
                 {isClient && <>
+                    <Route path={`${API_AUTH}${VERIFY_EMAIL}`} element={<VerifyEmailHandler />} />
                     <Route path={API_AUTH} element={<_Home />} >
                         <Route path='verify' element={<_Home />} >
-                            <Route path='email/:token' element={<VerifyEmailHandler />} />
+                            {/* <Route path='email/:token' element={<VerifyEmailHandler />} /> */}
                             <Route path='session' />
                             {/* <Route path='*' />  element={<_Home />}*/}
                         </Route>
