@@ -29,10 +29,6 @@ const ChatMessageBox = ({ cb }: ChatMessageBoxProps) => {
     const handleClickFile = () => {
         const file = uploadFile();
         if (file) setContent(file);
-
-        // console.log(new Date(file.lastModified));
-        // setContent(file);
-        // console.log(content);
     };
     
     const handleText = (e: React.ChangeEvent<HTMLInputElement>) => {

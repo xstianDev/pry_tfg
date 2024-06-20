@@ -19,32 +19,7 @@ i {
 /******************/
 .navbar-part {
     background-color: #2a0a94;
-    box-shadow: 0 0 8px var(--black-transparent-40), 0px 5px #5126e0;
-}
-
-
-/********************/
-/* Left side navbar */
-/********************/
-.app-name {
-    color: white;
-}
-
-
-/*******************/
-/* Timer container */
-/*******************/
-.chronometer-item {
-    background-color: #2a0a94;
-    box-shadow: 0 0 8px , 0px 5px #5126e0;
-}
-
-.time-container {
-    background-color: #4826B8;
-}
-
-.time {
-    color: white;
+    box-shadow: 0 0 8px var(--black-alpha-50), 0px 5px #5126e0;
 }
 
 /* @ media (prefers-color-scheme: dark) */

@@ -1,7 +1,7 @@
-import { SetState } from '@/types';
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import io, { Socket } from 'socket.io-client';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
+import { SetState } from '@/types';
 
 export type SocketIO = Socket<DefaultEventsMap, DefaultEventsMap>;
 
@@ -33,7 +33,6 @@ export const SocketContextProvider = ({ children }: SocketContextProps) => {
             // },
         });
 
-        // socket.on() is used to listen to the events. can be used both on client and server side
         // socket.on('getOnlineUsers', (users) => {
         //     setOnlineUsers(users);
         // });

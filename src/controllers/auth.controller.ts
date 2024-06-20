@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
@@ -14,7 +14,6 @@ import { HOME } from '@/constants/pageRoutes';
 import { reject } from '@/errors/ServerError';
 import { setCookie, sendResponse } from '@/utils/responses';
 
-// TODO checkeo para que la contraseña cumpla características
 export const register = async (req: Request, res: Response) => {
     const { email, password, info } = req.body;
 
@@ -34,7 +33,7 @@ export const register = async (req: Request, res: Response) => {
         .catch(err => logAndSendError(err));
 };
 
-export const login = async (req: Request, res: Response, next: NextFunction) => {
+export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     await User.findOne({ email: email })
@@ -52,7 +51,11 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             const { _id, role } = user;
             await UserSession.create({ userId: _id, role })
                 .then(userSession => {
-                    setCookie('sessionToken', { userId: userSession._id, role });
+                    setCookie('sessionToken', {
+                        userId: user._id,
+                        sessionId: userSession._id,
+                        role
+                    });
                     sendResponse(OK, { role });
                 })
                 .catch(err => logAndSendError(err));
@@ -60,16 +63,19 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         .catch(err => logAndSendError(err));
 };
 
-export const logout = async (req: Request, res: Response, next: NextFunction) => {
-    const { session } = req.body;
-    const { sessionId } = verifyToken(session) as JwtPayload;
+/** Cierra la sesión actual del usuario */
+export const logout = async (req: Request, res: Response) => {
+    const { sessionToken } = req.cookies;
+    const { sessionId } = verifyToken(sessionToken) as JwtPayload;
+
+    console.log(verifyToken(sessionToken) as JwtPayload);
 
     await UserSession.findOne({ _id: sessionId })
         .then(async (session) => {
             if (!session) 
                 return reject(UNAUTHORIZED, 'Fallo en la sesión');
 
-            if (session.active)
+            if (!session.active)
                 return reject(UNAUTHORIZED, 'Tu cuenta está inactiva');
 
             session.active = false;
@@ -82,14 +88,16 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
         .catch(err => logAndSendError(err));
 };
 
-/**
- * Comprueba el token de sesión. Si no existe, lo envía.
- */
-export const verifySession = async (req: Request, res: Response, next: NextFunction) => {
+/** Verifica la sesión que hay almacenada en una cookie */
+export const verifySession = async (req: Request, res: Response) => {
     const { sessionToken } = req.cookies;
     
     if (!sessionToken) {
-        setCookie('sessionToken', { sessionId: null, role: 'anon' });
+        setCookie('sessionToken', {
+            userId: null,
+            sessionId: null,
+            role: 'anon'
+        });
         return sendResponse(OK, { role: 'anon' });
     }
         
@@ -111,7 +119,8 @@ export const verifySession = async (req: Request, res: Response, next: NextFunct
         .catch(err => logAndSendError(err));
 };
 
-export const verifyEmailToken = async (req: Request, res: Response, next: NextFunction) => {
+/** Comprueba un token que viene del correo para activar el usuario */
+export const verifyEmailToken = async (req: Request, res: Response) => {
     const { token } = req.body;
     const { userId } = verifyToken(token) as JwtPayload;
 
@@ -131,7 +140,6 @@ export const verifyEmailToken = async (req: Request, res: Response, next: NextFu
         .catch(err => logAndSendError(err));
 };
 
-// TODO mandar token nuevo cuando caduca
 export const resendVerifyEmailToken = async (req: Request, res: Response) => {
     const token = req.query.token as string;
     const { userId } = verifyToken(token) as JwtPayload;

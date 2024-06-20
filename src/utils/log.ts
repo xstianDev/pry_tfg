@@ -17,10 +17,24 @@ const getURL = (request?: Request) => {
     return `${req.method} ${req.originalUrl}`;
 };
 
-export const logURL = (req?: Request) => { logger.info(getURL(req)); };
+export const logURL = (req?: Request) => {
+    const url = getURL(req);
 
+    url.includes('/api/error/send') 
+        ? logger.warn(url)
+        : logger.info(url);
+};
+
+/**
+ * Logguea y guarda el error.
+ * 
+ * @param err - Según su tipo, se maneja de diferente manera.
+ * @param req - (Opcional) Petición del servidor.
+ */
 export const logError = (err: AxiosError | ServerError | Error, req?: Request) => {
-    logger.error(getURL(req));
+    if (getURL(req) !== 'POST /api/error/send') {
+        logger.error(getURL(req));
+    }
 
     if (err instanceof AxiosError || isAxiosError(err)) {
         logger.error(err.message);
@@ -46,6 +60,12 @@ export const logError = (err: AxiosError | ServerError | Error, req?: Request) =
     }
 };
 
+/**
+ * Logguea y guarda el error, y después manda una respuesta al cliente.
+ * 
+ * @param err - Según su tipo, se maneja de diferente manera.
+ * @param req - (Opcional) Petición del servidor.
+ */
 export const logAndSendError = (err: AxiosError | ServerError | Error, req?: Request) => {
     logError(err, req);
 

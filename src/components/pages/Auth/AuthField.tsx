@@ -15,7 +15,6 @@ export interface AuthFieldProps {
     };
 }
 
-
 const AuthField = (props: AuthFieldProps) => {
     const { required, className, labelText, type, cb, placeholder, extra } = props;
 

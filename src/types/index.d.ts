@@ -3,6 +3,11 @@
 import { InternalAxiosRequestConfig } from 'axios';
 import React from 'react';
 
+export interface ICard {
+    img: string;
+    text: string;
+}
+
 export interface INavbarButton {
     text: string;
     url: string;
@@ -59,7 +64,7 @@ export type AuthInputType = 'text' | 'email' | 'password' | 'date';
 export type UserRole = 'anon' | 'user' | 'worker' | 'admin'; 
 export type UserGender = 'M' | 'F';
 
-export type ChatSessionType = 'chat' | 'group';
+export type ChatType = 'chat' | 'group';
 
 export type ImageType = 'image/png' | 'image/jpeg';
 export type MessageType = 'text' | ImageType;

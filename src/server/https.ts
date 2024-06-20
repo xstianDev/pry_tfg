@@ -52,9 +52,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// TODO comprobar que la sesión coincide al hacer post
-// TODO investigar Access-Control-Allow-[...]
-
 app.use(session({
     name: 'X-SessionID',
     secret: createRandomBytes(64),

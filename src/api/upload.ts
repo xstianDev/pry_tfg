@@ -1,3 +1,4 @@
+/** Crea un input de tipo file para obtener un archivo. */
 export const uploadFile = () => {
     let file: File;
     

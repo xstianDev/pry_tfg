@@ -15,7 +15,6 @@ export interface UserDocument extends Document {
     banned: boolean;
 }
 
-// TODO adaptar código al nuevo Schema
 const userSchema = new Schema<UserDocument>({
     email: { type: String, required: true, lowercase: true, trim: true, unique: true },
     password: { type: String, required: true, trim: true },

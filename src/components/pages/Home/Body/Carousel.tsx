@@ -62,7 +62,7 @@ export const Carousel = () => {
                         <div key={idx}
                             className={`dot-container-item ${idx === currentIndex ? 'active' : ''}`}
                             onClick={() => goToSlide(idx)}>
-							&#9865;
+                            &#9865;
                         </div>
                     ))}
                 </div>

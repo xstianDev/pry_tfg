@@ -21,6 +21,7 @@ export const disconnect = async (req: Request) => {
         .catch(err => logger.error(err));
 };
 
+/** Middleware que se conecta con Atlas y la acaba la conexión cuando se cierra la respuesta */
 export const useDB = async (req: Request, res: Response, next: NextFunction) => {
     await connect(req);
         

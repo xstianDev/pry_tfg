@@ -64,15 +64,15 @@ const Register = () => {
 
         await apiAuth.post(REGISTER, { email, password, info })
             .then(res => {
-                if (res.status === 200) {
-                    setModal({
-                        icon: 'check2-circle',
-                        text: 'Registro exitoso',
-                        color: 'green'
-                    });
+                if (res.status !== 200) return;
 
-                    return navigate(HOME);
-                }
+                setModal({
+                    icon: 'check2-circle',
+                    text: 'Registro exitoso',
+                    color: 'green'
+                });
+
+                return navigate(HOME);
             })
             .catch(err => {
                 sendError(err);
@@ -155,7 +155,6 @@ const Register = () => {
                 cb={setBirthday}
             /> 
 
-            {/* // TODO Permitir ver el nombre del archivo antes de mandar */}
             <div className='auth-field'>
                 <div className='auth-label-container'>
                     <label className='auth-label'>Foto de perfil</label>

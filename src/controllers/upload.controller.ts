@@ -1,3 +1,1 @@
-export const getSingleFile = () => {
-
-};
+// export const getSingleFile = () => {};

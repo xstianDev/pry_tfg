@@ -1,10 +1,14 @@
+import { UserDocument } from '@/models/User';
 import { ObjectId } from 'mongoose';
 import { UserRole } from '.';
 
-declare namespace Express {
-    interface Request {
-        userId: ObjectId;
-        userRole: UserRole;
+declare global {
+    namespace Express {
+        interface Request {
+            user: UserDocument;
+            userId: ObjectId;
+            userRole: UserRole;
+        }
     }
 }
 

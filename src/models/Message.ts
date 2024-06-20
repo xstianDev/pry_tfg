@@ -3,8 +3,9 @@ import { MessageType } from '@/types';
 import logger from '@/lib/logger';
 
 export interface MessageDocument extends Document {
-    chatSessionId: ObjectId;
-    sentBy: ObjectId;
+    chatId: ObjectId;
+    senderId: ObjectId;
+    receiverId: ObjectId;
     imageId: ObjectId;
     text: string;
     type: MessageType;
@@ -16,10 +17,10 @@ export interface MessageDocument extends Document {
 
 const EMessageType: MessageType[] = ['text', 'image/png', 'image/jpeg'];
 
-// ! TODO validators para que solo haya texto o imagen
 const messageSchema = new Schema<MessageDocument>({
-    chatSessionId: { type: Schema.Types.ObjectId, ref: 'ChatSession', required: true },
-    sentBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    chatId: { type: Schema.Types.ObjectId, ref: 'Chat', required: true },
+    senderId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    receiverId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     imageId: { type: Schema.Types.ObjectId, ref: 'Image', default: null },
     text: { type: String, default: null },
     type: { type: String, required: true, enum: EMessageType },

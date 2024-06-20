@@ -25,22 +25,35 @@ const credentials = {
     passphrase: PASSPHRASE,
 };
 
-
 const server = (HTTP_PROTOCOL === 'http') 
     ? http.createServer(app)
     : https.createServer(credentials, app);
 
-const io = new Server(server, {
+export const io = new Server(server, {
     cors: {
         origin: '*',
-        // origin: httpsOrigin,
         methods: ['GET', 'POST'],
         credentials: true
     }
 });
 
+interface UserSocketMap {
+    [userId: string]: string;
+}
+
+const userSocketMap: UserSocketMap = {};
+
+export const getReceiverSocketId = (receiverId: string) => {
+    return userSocketMap[receiverId];
+};
+
 io.on('connection', (socket) => {
     logger.info(`Usuario conectado: ${socket.id}`);
+
+    const userId = socket.handshake.query.userId as string;
+    if (userId) userSocketMap[userId] = socket.id;
+
+    io.emit('getOnlineUsers', Object.keys(userSocketMap));
 
     socket.on('send', (args) => {
         console.log('send', args);
@@ -52,6 +65,8 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         logger.info(`Usuario desconectado: ${socket.id}`);
+        delete userSocketMap[userId];
+        io.emit('getOnlineUsers', Object.keys(userSocketMap));
     });
 });
 

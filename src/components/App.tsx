@@ -1,4 +1,3 @@
-import '@css/App.css';
 import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
@@ -15,14 +14,20 @@ import { useAuthContext } from '@/context/AuthContext';
 import { apiAuth } from '@/api/axios';
 import { sendError } from '@/api/error';
 import Modal from './shared/errors/Modal';
+import LogoutHandler from './shared/handlers/LogoutHandler';
 
 interface AppProps {
     isClient: boolean;
 }
 
+/**
+ * Comprueba si la ruta actual está en la lista negra. Si este es el caso, no comprueba la sesión.
+ * Sirve para saltar esta comprobación en casos donde no es necesario.
+ */
 const isNotCheckable = () => {
     const location = window.location.href;
     const blacklist = ['/api/auth/verify/'];
+
     for (const str in blacklist) {
         if (location.includes(str)) return true;
     }
@@ -55,13 +60,13 @@ const App = ({ isClient }: AppProps) => {
                 <Route path={HOME} element={<Home />} />
                 <Route path='/chat' element={<Chat />} />
 
-                {!auth.logged 
+                {auth.logged 
                     ? <>
-                        <Route path={LOGIN} element={<Auth isRegister={false} />} />
-                        <Route path={REGISTER} element={<Auth isRegister={true} />} />
+                        <Route path={LOGOUT} element={<LogoutHandler />} />
                     </> 
                     : <>
-                        <Route path={LOGOUT} />
+                        <Route path={LOGIN} element={<Auth isRegister={false} />} />
+                        <Route path={REGISTER} element={<Auth isRegister={true} />} />
                     </>
                 }
                 
@@ -73,9 +78,7 @@ const App = ({ isClient }: AppProps) => {
                     <Route path={`${API_AUTH}${VERIFY_EMAIL}`} element={<VerifyEmailHandler />} />
                     <Route path={API_AUTH} element={<_Home />} >
                         <Route path='verify' element={<_Home />} >
-                            {/* <Route path='email/:token' element={<VerifyEmailHandler />} /> */}
                             <Route path='session' />
-                            {/* <Route path='*' />  element={<_Home />}*/}
                         </Route>
                     </Route>
 

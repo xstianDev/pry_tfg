@@ -1,5 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 
+/**
+ * Toma los valores de `req`, `res` y `next` antes de cada middleware.
+ * Sirve para poder usar estos valores sin tener que pasarlos como
+ * parámetro a las funciones que utilizan información de la petición
+ * o escriben en la respuesta.
+ */
 class ServerContext {
     req: Request | null = null;
     res: Response | null = null;

@@ -2,8 +2,6 @@ import React from 'react';
 
 const OAuth = () => {
     return (
-        // TODO hacer que los SVG se adapten a su contenedor
-        // TODO OAuth
         <div className='oauth-container'>
             <span className='oauth-text'>Continúa usando tu cuenta</span>
             <div className='oauth-buttons'>

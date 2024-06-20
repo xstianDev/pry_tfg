@@ -13,19 +13,23 @@ import { logURL } from '@/utils/log';
 import { sendResponse, setCookie } from '@/utils/responses';
 import { serverContext } from '@/utils/ServerContext';
 
-
+/** Logguea el método y la URL antes del middleware correspondiente. */
 export const logReqURL = async (req: Request, res: Response, next: NextFunction) => {
     logURL(req);
     next();
 };
 
+/** Guarda el req, res y next antes de su middleware correspondiente. */
 export const createServerContext = (req: Request, res: Response, next?: NextFunction) => {    
     serverContext.setContext({ req, res, next });
     next();
 };
 
+/** Obtiene el HTML convirtiendo React a string y genera el token CSRF. */
 export const getHTML = async (req: Request, res: Response, next: NextFunction) => {
     const url = req.originalUrl;
+    
+    if (url.includes('/api/chat')) next();
 
     fs.promises.readFile(path.resolve('public', 'index.html'), 'utf-8')
         .then(async (template) => vite.transformIndexHtml(url, template))
@@ -51,6 +55,7 @@ export const getHTML = async (req: Request, res: Response, next: NextFunction) =
         });
 };
 
+/** Comprueba el token CSRF en las peticiones POST. */
 export const checkCSRF = async (req: Request, res: Response, next: NextFunction) => {
     logURL({ ...req, originalUrl: `${req.originalUrl} + checkCSRF` } as Request);
 
@@ -65,7 +70,8 @@ export const checkCSRF = async (req: Request, res: Response, next: NextFunction)
         || !sessionPayload 
         || !cookiePayload
     ) {
-        return sendResponse(UNAUTHORIZED, { error: 'Error con los tokens de sesión' });
+        const error = 'Error con los tokens de sesión';
+        return sendResponse(UNAUTHORIZED, { error });
     }
 
     next();

@@ -1,14 +1,18 @@
-# TFG
+# Comandos de package.json
+lint : analiza el estilo del proyecto.
+lint:fix : corrige los estilos.
 
-## Archivo .env
+ssr : levanta el servidor HTTPS del archivo https.ts 
+wss : levanta el servidor WSS del archivo socket.ts
 
-PASSPHRASE=...
-PROTOCOL=...
-HOST=...
-HTTPS_PORT=...
-WSS_PORT=...
+build:client : compila el código del lado del cliente.
+build:server : compila el código de https.ts.
+build:socket : compila el código de socket.ts
+build : build:client + build:server + build:socket
 
-SENDER_MAIL=...
-SENDER_PASS=...
+build:ssr : build:server + ssr
+build:wss : build:socket + wss
 
-ATLAS_URI=...
+
+# Información
+Actualmente el proyecto está alojado en https://github.com/xstianDev/pry_tfg bajo el nombre de pry_tfg, pero en el futuro será archivado y el código se migrará a un repositorio llamado Bloom en una cuenta dedicada a proyectos similares.

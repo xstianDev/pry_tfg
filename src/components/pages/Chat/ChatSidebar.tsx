@@ -1,43 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { apiChat } from '@/api/axios';
+import React from 'react';
 
-import ChatUser from './ChatUser';
 import user from '@img/chat/user-full.png';
+import Conversation from './Conversation';
+import useGetConversations from '@/hooks/useGetConversations';
 
 const ChatSidebar = () => {
-    const [conversations, setConversations] = useState([]);
+    // const { conversations } = useGetConversations();
 
-    // useEffect(() => {
-    //     apiChat.get('/conversations')
-    //         .then(res => setConversations(res))
-    //         .catch(err => { sendError(err); });
-    // }, []);
-    
-    // useEffect(() => {
-    //     apiChat.get('/conversations/:id')
-    //         .then(res => setConversations(res))
-    //         .catch(err => { sendError(err); });
-    // }, [currentConversation]);
-
-    const users = [];
-
+    const conversations = [];
     for (let i = 0; i < 10; i++) {
-        users.push(
-            <ChatUser key={`user_${i}`} profilePicture={user} name={`Usuario ${i}`} />
-        );
+        conversations.push({
+            user,
+            name: `Usuario ${i}`
+        });
     }
 
     return (
         <div className='chat-sidebar-wrapper'>
-            <ul>{users}</ul>
+            {conversations.map((chat, index: number) =>
+                <Conversation
+                    key={`conversation_${index}`}
+                    avatar={user}
+                    name={chat.name}
+                />
+            )}
         </div>
-        // <ul>
-        //     {conversations.map((user, index) => {
-        //         <li key={`conversation_${index}`}>
-        //             <span>{user}</span>
-        //         </li>;
-        //     })}
-        // </ul>
     );
 };
 

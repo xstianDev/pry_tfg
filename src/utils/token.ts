@@ -4,6 +4,13 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import logger from '@/lib/logger';
 
+/**
+ * Firma un token JWT.
+ *
+ * @param payload - Datos que se van a insertar en el token.
+ * @param expireTime - (Opcional) Tiempo de caducidad. Por defecto, '7d'.
+ * @returns El token JWT firmado.
+ */
 export const signToken = (payload: object, expireTime?: string | number) => {
     const PRIVATE_KEY = fs.readFileSync(path.resolve('certs/auth', 'auth_private.key'));
 
@@ -13,6 +20,13 @@ export const signToken = (payload: object, expireTime?: string | number) => {
     });
 };
 
+
+/**
+ * Verifica un token JWT.
+ *
+ * @param token - Token JWT encriptado.
+ * @returns Payload del token.
+ */
 export const verifyToken = (token: string) => {
     const PUBLIC_KEY = fs.readFileSync(path.resolve('certs/auth', 'auth_public.key'));
 
@@ -25,6 +39,10 @@ export const verifyToken = (token: string) => {
     }
 }; 
 
-export const createUUID = () => crypto.randomUUID();
-
+/**
+ * Crea bytes aleatorios y los convierte a.
+ *
+ * @param n - Número de caracteres generados.
+ * @returns Cadena de caracteres aleatorios.
+ */
 export const createRandomBytes = (n: number) => crypto.randomBytes(n).toString('hex');

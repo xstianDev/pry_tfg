@@ -20,7 +20,7 @@ i {
 /******************/
 .navbar-part {
     background-color: white;
-    box-shadow: 0 0 8px var(--black-transparent-40), 0px 5px #c7c7a3;
+    box-shadow: 0 0 8px var(--black-alpha-50), 0px 5px #c7c7a3;
 }
 
 
@@ -37,7 +37,7 @@ i {
 /*******************/
 .chronometer-item {
     background-color: white;
-    box-shadow: 0 0 8px var(--black-transparent-40), 0px 5px #c7c7a3;
+    box-shadow: 0 0 8px var(--black-alpha-50), 0px 5px #c7c7a3;
 }
 
 .time-container {

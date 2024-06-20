@@ -5,6 +5,7 @@ import ChatMessageBox from './ChatMessageBox';
 import ChatMessages from './ChatMessages';
 import { useSocketContext } from '@/context/SocketContext';
 import ChatRoomName from './ChatRoomName';
+import { useChatContext } from '@/context/ChatContext';
 
 
 const ChatRoom = () => {
@@ -12,7 +13,9 @@ const ChatRoom = () => {
     const [otherId, setOtherId] = useState('');
     const [message, setMessage] = useState<MessageContent>('');
     const [messages, setMessages] = useState([]);
+    
     const { socket } = useSocketContext();
+    const { selectedChat } = useChatContext();
     
     useEffect(() => {
         if (!socket) return;
@@ -39,19 +42,12 @@ const ChatRoom = () => {
             : { event: 'upload', content: { image: message } };        
         
         socket.emit(event, content);
-        /*
-        if (name && message) {
-            socket.emit('sendMessage', { name, message });
-            setName('');
-            setMessage('');
-        }
-        */
     }, [message]);
 
     return (
         <div className='chat-room-wrapper'>
             <div className='chat-room-container'>
-                <ChatRoomName />
+                {selectedChat && <ChatRoomName name={selectedChat.name} />}
                 <ChatMessages />
             </div>
             <ChatMessageBox cb={setMessage} />

@@ -21,12 +21,23 @@ const transporter = nodemailer.createTransport({
 });
 
 
+/**
+ * Genera el token que se va a mandar al correo.
+ * 
+ * @param user - Documento con la información del usuario.
+ * @returns Token firmado
+ */
 export const signEmailToken = (user: UserDocument) => {
     const payload = { userId: user._id, userRole: user.role };
     return signToken(payload, '2d');
 };
 
-// TODO el token debe caducar (generar uno nuevo cada vez)
+/**
+ * Manda un email de verificación de cuenta.
+ * 
+ * @param user - Documento con la información del usuario.
+ * @returns Promesa de tipo SMTP Transport
+ */
 export const sendVerifyUserEmail = async (user: UserDocument) => {
     const token = signEmailToken(user);
     const name = `${user.info.name} ${user.info.surname}`;

@@ -1,4 +1,3 @@
-// TODO mover al servidor
 type Check = {
     reg: RegExp,
     err: string
@@ -30,8 +29,23 @@ const emailChecks: Check[] = [
     }
 ];
 
+/**
+ * Realiza una sola comprobación.
+ * 
+ * @param str - Valor que se va a testar.
+ * @param reg - Condición a comprobar.
+ * @param err - Mensaje en caso de fallo.
+ * @returns En caso de fallar el test, devuelve una respuesta.
+ */
 const check = (str: string, reg: RegExp, err: string) => !reg.test(str) ? err : null;
 
+/**
+ * Itera sobre una lista de comprobaciones.
+ * 
+ * @param str - Valor que se va a testar.
+ * @param checks - Lista de comprobaciones.
+ * @returns Lista de mensajes de error.
+ */
 const runChecks = (str: string, checks: Check[]) => {
     const errors = [];
 

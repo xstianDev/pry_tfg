@@ -4,7 +4,7 @@
     margin: 0 auto;
     padding: 32px;
     border-radius: 16px;
-    box-shadow: 0px 0px 16px 4px var(--black-transparent-75);
+    box-shadow: 0px 0px 16px 4px var(--black-alpha-75);
 
     position: absolute;
     top: -150px;

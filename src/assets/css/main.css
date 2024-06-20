@@ -8,18 +8,23 @@
 }
 
 :root {
-    --normal-font: 1em;
+    --link: #0A84FF;
+    --link-active: #0A84FF;
+
     --pale-red: #f55757;
     --pale-yellow: #ffe26e;
     --pale-green: #6eff7a;
     --pale-blue: #6e9cff;
 
-    --white-transparent-50: rgba(255, 255, 255, 0.5);
-    --white-transparent-60: rgba(255, 255, 255, 0.6);
+    --pale-gray: #dedede;
+    --light-gray: #cbcbcb;
+    
+    --white-alpha-50: rgba(255, 255, 255, 0.5);
+    --white-alpha-75: rgba(255, 255, 255, 0.75);
 
-    --black-transparent-40: rgba(0, 0, 0, 0.4);
-    --black-transparent-75: rgba(0, 0, 0, 0.75);
-    --black-transparent-80: rgba(0, 0, 0, 0.8);
+    --black-alpha-25: rgba(0, 0, 0, 0.25);
+    --black-alpha-50: rgba(0, 0, 0, 0.5);
+    --black-alpha-75: rgba(0, 0, 0, 0.75);
 }
 
 /* 
@@ -36,9 +41,15 @@ html, body, #root {
 body {
     height: 100%;
     font-family: 'Rubik', 'Lato', 'Segoe UI', sans-serif;
-    background: url('@img/fondo.jpg') no-repeat;
-    /* background-color: #10003a; */
-    /* background-color: rgba(19, 13, 56, 0.7); */
+    backdrop-filter: blur(40px); 
+    background: linear-gradient(
+        to right bottom, 
+        #2796ff, #00aaff,
+        #00bee4, #00cbde,
+        #00d4c6, #00d1d2,
+        #0087ff, #5666fe,
+        #7e57fd, #a349fd
+    );
 }
 
 h1 {

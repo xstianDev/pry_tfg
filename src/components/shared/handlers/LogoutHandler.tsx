@@ -1,26 +1,24 @@
 import { ReactNode, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { apiAuth } from '@/api/axios';
+import { useNavigate } from 'react-router-dom';
 
-import { HOME } from '@/constants/pageRoutes';
-import { VERIFY_EMAIL } from '@/constants/apiRoutes';
-import { useModalContext } from '@/context/ModalContext';
+import { HOME, LOGOUT } from '@/constants/pageRoutes';
 import { sendError } from '@/api/error';
+import { useModalContext } from '@/context/ModalContext';
 
-const VerifyEmailHandler = (): ReactNode => {
+const LogoutHandler = (): ReactNode => {
     const { setModal } = useModalContext();
-    const { token } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        apiAuth.post(VERIFY_EMAIL, { token })
+        apiAuth.post(LOGOUT)
             .then(res => {
                 if (res.status !== 200) return;
 
                 setModal({
                     icon: 'info-circle',
-                    text: 'Cuenta activada con éxito',
-                    color: 'blue',
+                    text: 'Sesión cerrada',
+                    color: 'green',
                 });
     
                 return navigate(HOME);
@@ -29,7 +27,7 @@ const VerifyEmailHandler = (): ReactNode => {
                 sendError(err);
                 setModal({
                     icon: 'exclamation-diamond',
-                    text: 'Error activando tu cuenta',
+                    text: 'Error cerrando tu sesión',
                     color: 'red',
                 });
             });
@@ -38,4 +36,4 @@ const VerifyEmailHandler = (): ReactNode => {
     return null;
 };
 
-export default VerifyEmailHandler;
+export default LogoutHandler;

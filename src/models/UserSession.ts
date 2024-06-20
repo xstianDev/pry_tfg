@@ -6,7 +6,6 @@ export interface UserSessionDocument extends Document {
     active: boolean;
 }
 
-// TODO adaptar código al nuevo Schema
 const userSessionSchema = new Schema<UserSessionDocument>({
     lastActivity: { type: Date, default: new Date() },
     active: { type: Boolean, required: true, default: true },
